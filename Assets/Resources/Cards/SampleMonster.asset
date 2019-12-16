@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02a4ec3c78dbe9f4da19b73e3923495b, type: 3}
-  m_Name: SampleCard
+  m_Name: SampleMonster
   m_EditorClassIdentifier: 
   cardPlayEvent:
     m_PersistentCalls:
@@ -26,5 +26,5 @@ MonoBehaviour:
       m_Calls: []
   Title: Dark Magician Girl
   Description: Some Weirdo
-  Type: 1
-  graphic: {fileID: 2800000, guid: 5337462fb4bebf2469fd56225f4c868a, type: 3}
+  Type: 0
+  graphic: {fileID: 2800000, guid: b7ecb3a07e48bbd4688c4fbe8f85d5ff, type: 3}
