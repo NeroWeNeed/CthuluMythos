@@ -26,5 +26,5 @@ MonoBehaviour:
       m_Calls: []
   Title: Dark Magician Girl
   Description: Some Weirdo
-  Type: 2
+  Type: 3
   graphic: {fileID: 2800000, guid: d70bc41bd656ae942a60476972bd6a9a, type: 3}
