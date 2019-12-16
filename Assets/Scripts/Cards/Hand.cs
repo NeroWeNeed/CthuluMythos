@@ -70,12 +70,24 @@ namespace CMythos
                 card = cardsInDeck.Pop();
                 cardsInHand.Add(card);
                 Debug.Log(cardsInHand.IndexOf(card));
-                cardRenderers[cardsInHand.IndexOf(card)].Card = card;
+                UpdateCardRenderers();
+
+
                 Debug.Log("Hand size is " + cardsInHand.Count);
                 return card;
             }
             else
                 return null;
+        }
+        private void UpdateCardRenderers()
+        {
+            for (int i = 0; i < cardRenderers.Count; i++)
+            {
+                if (i < cardsInHand.Count)
+                    cardRenderers[i].Card = cardsInHand[i];
+                else
+                    cardRenderers[i].Card = null;
+            }
         }
         public bool IsHandFull()
         {
@@ -91,8 +103,9 @@ namespace CMythos
             if (index >= 0)
             {
                 cardsInHand.RemoveAt(index);
-                cardRenderers[index].Card = null;
+                UpdateCardRenderers();
                 playMat.Discard(card);
+                Debug.Log("Hand size is " + cardsInHand.Count);
                 return true;
             }
             return false;
@@ -103,7 +116,7 @@ namespace CMythos
             if (index >= 0)
             {
                 cardsInHand.RemoveAt(index);
-                cardRenderers[index].Card = null;
+                UpdateCardRenderers();
                 playMat.Play(card);
                 return true;
             }

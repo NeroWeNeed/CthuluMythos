@@ -35,16 +35,6 @@ namespace CMythos
             set => sanity = value;
         }
 
-        public bool CanDraw
-        {
-            get; private set;
-        }
-        public bool CanMove
-        {
-            get; private set;
-        }
-
-        public bool CanRoll;
         void Start()
         {
             turnManagable = GetComponent<TurnManagable>();
@@ -84,9 +74,6 @@ namespace CMythos
         private void InitTurn()
         {
             Debug.Log("My Turn");
-            CanRoll = true;
-            CanMove = true;
-            CanDraw = true;
             foreach (var item in playMat.Piles.Values)
             {
                 foreach (var item2 in item.Cards)

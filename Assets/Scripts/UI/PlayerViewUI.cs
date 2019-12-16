@@ -19,7 +19,10 @@ namespace CMythos
             {
                 currentPlayer = value;
                 if (currentPlayer != null)
-                    currentPlayer.CanRoll = true;
+                {
+                    CanMove = true;
+                    CanDraw = true;
+                }
                 movingSum = 0;
             }
         }
@@ -45,13 +48,33 @@ namespace CMythos
         private bool ambiguousPath = false;
 
 
+        private bool CanMove = false;
+        private bool CanDraw = false;
+
+        private void Start()
+        {
+            CanMove = true;
+            CanDraw = true;
+        }
         public void MoveCurrentPlayer()
         {
-            if (currentPlayer != null && movingSum == 0 && currentPlayer.CanRoll)
+            if (currentPlayer != null && movingSum == 0 && CanMove)
             {
                 Debug.Log("Shooting...");
-                currentPlayer.CanRoll = false;
+                CanMove = false;
                 diceShooter.Shoot(DiceShootCallback, manager.MovementDice);
+
+            }
+
+        }
+        public void DrawCardCurrentPlayer()
+        {
+            if (currentPlayer != null && movingSum == 0 && CanDraw)
+            {
+                Debug.Log("Drawing...");
+                CanDraw = false;
+                currentPlayer.DrawCard();
+
 
             }
 
@@ -78,7 +101,7 @@ namespace CMythos
             {
                 ambiguousPath = true;
             }
-            
+
 
 
         }
