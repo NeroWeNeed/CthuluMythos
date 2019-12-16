@@ -69,6 +69,9 @@ namespace CMythos
 
             }
         }
+        public Vector3Int GetCoordinates() {
+            return GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates;
+        }
 
 
         private void InitTurn()

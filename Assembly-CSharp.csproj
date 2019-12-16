@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Management\TurnManagable.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManager.cs" />
      <Compile Include="Assets\Scripts\PlayerSelect.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerCoordinateTracker.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUI.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
  <Reference Include="Unity.Timeline.Editor">

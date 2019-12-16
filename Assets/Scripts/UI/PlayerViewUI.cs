@@ -101,6 +101,11 @@ namespace CMythos
             {
                 ambiguousPath = true;
             }
+            foreach (var item in GetComponentsInChildren<PlayerCoordinateTracker>())
+            {
+                item.UpdateText(currentPlayer.GetCoordinates().ToString());
+            }
+            
 
 
 
