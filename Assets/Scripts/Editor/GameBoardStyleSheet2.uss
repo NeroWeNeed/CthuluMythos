@@ -1,0 +1,13 @@
+
+#grid-container {
+flex-direction: row;
+justify-content: center;
+}
+#grid-size {
+flex-direction: row;
+}
+
+
+#grid-tile-editor {
+    flex-direction: column;
+}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a4ec3c78dbe9f4da19b73e3923495b, type: 3}
+  m_Name: SampleCard
+  m_EditorClassIdentifier: 
+  cardPlayEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cardActiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cardDiscardEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cardDrawEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  Title: Dark Magician Girl
+  Description: Some Weirdo
+  Type: 2
+  graphic: {fileID: 2800000, guid: 5337462fb4bebf2469fd56225f4c868a, type: 3}

@@ -1,0 +1,21 @@
+<UXML xmlns="UnityEngine.UIElements">
+   <VisualElement name="container">
+      <Vector3IntField name="grid-size" label="Grid Size" xmlns="UnityEditor.UIElements"/>
+      <VisualElement name="grid-container">
+         <Image name="grid" label="Grid"/>
+
+      </VisualElement>
+      <Button name="next-layer"/>
+      <VisualElement name="grid-info-container">
+         <VisualElement name="grid-tile-editor">
+         <ObjectField name="effect-selector" label="Effect Selector" allow-scene-objects="false" xmlns="UnityEditor.UIElements"/>
+         <ObjectField name="render-selector" label="Render Selector" allow-scene-objects="false"  xmlns="UnityEditor.UIElements"/>
+         </VisualElement>
+      <Label text="Path Selector"/>
+      <Image name="path-selector" label="Path Selector"/>
+               <ObjectField name="default-render-selector" label="Default Render Selector" allow-scene-objects="false"  xmlns="UnityEditor.UIElements"/>
+      
+      
+      </VisualElement>
+   </VisualElement>
+</UXML>

@@ -1,0 +1,11 @@
+<UXML xmlns="UnityEngine.UIElements">
+<VisualElement>
+   <Vector3Field name="match-orientation-direction" label="Match Orientation" xmlns="UnityEditor.UIElements"/>
+   <Toggle name="invert-orientation-direction" label="Invert Orientation"/>
+   <VisualElement name="side-values">
+   </VisualElement>
+
+
+
+</VisualElement>
+</UXML>

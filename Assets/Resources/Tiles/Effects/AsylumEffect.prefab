@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1799002997861158450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5605412536618943845}
+  - component: {fileID: 8852118762076314474}
+  m_Layer: 0
+  m_Name: AsylumEffect
+  m_TagString: Asylum
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5605412536618943845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799002997861158450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -893.7679, y: 393.3781, z: -1881.3545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8852118762076314474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799002997861158450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0cd925b73ccf340be7aa48727e3a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tilePassEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileLeaveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileStartTurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileEndTurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
