@@ -4,6 +4,6 @@ namespace CMythos
 {
     public enum CardType
     {
-        CITY, LOCATION, ALLY, ARTIFACT, TOME, SPELL
+        MONSTER, LOCATION, ALLY, ARTIFACT, TOME, SPELL
     }
 }
