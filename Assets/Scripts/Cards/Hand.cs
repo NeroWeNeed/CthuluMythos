@@ -128,12 +128,12 @@ namespace CMythos
             {
                 deckInitialized = true;
                 
-                Card[] cards = AssetDatabase.LoadAllAssetsAtPath("Assets/Resources/Cards") as Card[];
+                UnityEngine.Object[] cards = Resources.LoadAll("Cards",typeof(Card));
                 cardsInDeck.Clear();
                 for (int i = 0; i < 100; i++)
                 {
                     
-                    cardsInDeck.Push(Instantiate(cards[UnityEngine.Random.Range(0,cards.Length-1)]));
+                    cardsInDeck.Push(Instantiate(cards[UnityEngine.Random.Range(0,cards.Length-1)]) as Card);
                 }
             }
 
