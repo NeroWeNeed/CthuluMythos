@@ -10,38 +10,30 @@ namespace CMythos
 
     public class PlayMat
     {
-        private Dictionary<CardType, PlayMatPile> piles = Enum.GetValues(typeof(CardType)).Cast<CardType>().Select(x => new PlayMatPile(x)).ToDictionary(x =>
-            {
-                return x.Type;
-            });
-        public Dictionary<CardType, PlayMatPile> Piles
-        {
-            get => piles;
-        }
-        private Dictionary<CardType, PlayMatPile> discardPiles = Enum.GetValues(typeof(CardType)).Cast<CardType>().Select(x => new PlayMatPile(x)).ToDictionary(x =>
-            {
-                return x.Type;
-            });
-        public Dictionary<CardType, PlayMatPile> DiscardPiles
-        {
-            get => discardPiles;
-        }
+        public Dictionary<CardType, PlayMatPile> Piles { get; } = Enum.GetValues(typeof(CardType)).Cast<CardType>().Select(x => new PlayMatPile(x)).ToDictionary(x =>
+                                                                             {
+                                                                                 return x.Type;
+                                                                             });
+        public Dictionary<CardType, PlayMatPile> DiscardPiles { get; } = Enum.GetValues(typeof(CardType)).Cast<CardType>().Select(x => new PlayMatPile(x)).ToDictionary(x =>
+                                                                                    {
+                                                                                        return x.Type;
+                                                                                    });
 
         public PlayMatPile GetPile(CardType type)
         {
-            return piles[type];
+            return Piles[type];
         }
         public PlayMatPile GetDiscardPile(CardType type)
         {
-            return discardPiles[type];
+            return DiscardPiles[type];
         }
         public void Discard(Card card)
         {
-            discardPiles[card.Type].Cards.Push(card);
+            DiscardPiles[card.Type].Cards.Push(card);
         }
         public void Play(Card card)
         {
-            piles[card.Type].Cards.Push(card);
+            Piles[card.Type].Cards.Push(card);
 
         }
 
