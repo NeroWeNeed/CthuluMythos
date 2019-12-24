@@ -22,6 +22,7 @@ namespace CMythos
         [SerializeField]
         private float pileHorizontalMargin = 10.0f;
 
+        public GameBoardPlayer player;
 
         private List<Card> cardsInHand;
         private Stack<Card> cardsInDeck;
@@ -30,34 +31,6 @@ namespace CMythos
         private Canvas canvas;
         private void Start()
         {
-            canvas = GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            cardsInHand = new List<Card>(CARDS_PER_HAND);
-            cardsInDeck = new Stack<Card>();
-            cardRenderers = new List<CardRenderer>(CARDS_PER_HAND);
-            CardRenderer[] childCardRenderers = GetComponentsInChildren<CardRenderer>();
-            GameObject obj;
-            float lastX = 0.0f;
-            CardRenderer renderer;
-            for (int i = 0; i < CARDS_PER_HAND; i++)
-            {
-                if (i < childCardRenderers.Length)
-                    renderer = childCardRenderers[i];
-
-                else
-                {
-                    obj = new GameObject($"Card Renderer {i}", typeof(CardRenderer));
-                    obj.transform.SetParent(transform, false);
-                    renderer = obj.GetComponent<CardRenderer>();
-                }
-
-
-
-                renderer.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, 0, 0);
-                lastX += Card.CARD_WIDTH + pileSpacing;
-
-                cardRenderers.Add(renderer);
-            }
 
 
         }
@@ -99,13 +72,30 @@ namespace CMythos
         }
         public bool Discard(Card card, PlayMat playMat)
         {
+
             int index = cardsInHand.IndexOf(card);
             if (index >= 0)
             {
                 cardsInHand.RemoveAt(index);
                 UpdateCardRenderers();
                 playMat.Discard(card);
-                Debug.Log("Hand size is " + cardsInHand.Count);
+                return true;
+            }
+            return false;
+        }
+        public Card GetCard(int index)
+        {
+            return cardsInHand[index];
+        }
+        public bool Discard(int index, PlayMat playMat)
+        {
+
+            if (index >= 0)
+            {
+                Card card = cardsInHand.ElementAt(index);
+                cardsInHand.RemoveAt(index);
+                UpdateCardRenderers();
+                playMat.Discard(card);
                 return true;
             }
             return false;
@@ -122,18 +112,54 @@ namespace CMythos
             }
             return false;
         }
+        public void Initialize()
+        {
+            Debug.Log("Triggering start");
+            canvas = GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            cardsInHand = new List<Card>(CARDS_PER_HAND);
+            cardsInDeck = new Stack<Card>();
+            cardRenderers = new List<CardRenderer>(CARDS_PER_HAND);
+            CardRenderer[] childCardRenderers = GetComponentsInChildren<CardRenderer>();
+            GameObject obj;
+            float lastX = 0.0f;
+            CardRenderer renderer;
+            for (int i = 0; i < CARDS_PER_HAND; i++)
+            {
+                if (i < childCardRenderers.Length)
+                    renderer = childCardRenderers[i];
+
+                else
+                {
+                    obj = new GameObject($"Card Renderer {i}", typeof(CardRenderer));
+                    obj.transform.SetParent(transform, false);
+
+                    renderer = obj.GetComponent<CardRenderer>();
+                    renderer.Initialize();
+                }
+
+                renderer.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, 0, 0);
+                lastX += Card.CARD_WIDTH + pileSpacing;
+
+                cardRenderers.Add(renderer);
+
+                renderer.GetComponent<Button>().onClick.AddListener(renderer.Discard);
+            }
+
+        }
         public void InitializeDeck()
         {
             if (!deckInitialized)
             {
                 deckInitialized = true;
-                
-                UnityEngine.Object[] cards = Resources.LoadAll("Cards",typeof(Card));
+
+                UnityEngine.Object[] cards = Resources.LoadAll("Cards", typeof(Card));
+
                 cardsInDeck.Clear();
                 for (int i = 0; i < 100; i++)
                 {
-                    
-                    cardsInDeck.Push(Instantiate(cards[UnityEngine.Random.Range(0,cards.Length-1)]) as Card);
+
+                    cardsInDeck.Push(Instantiate(cards[UnityEngine.Random.Range(0, cards.Length - 1)]) as Card);
                 }
             }
 
@@ -148,7 +174,7 @@ namespace CMythos
                 {
                     played = true;
                     Debug.Log("Playing...");
-                    GetComponentInParent<GameBoardPlayer>().Discard(cardsInHand.First());
+                    player.Discard(cardsInHand.First());
                 }
             }
             else

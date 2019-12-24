@@ -75,8 +75,10 @@ namespace CMythos
             {
                 newDice = SpawnDice(d, create);
                 body = newDice.GetComponent<Rigidbody>();
-                body.AddTorque(transform.up + (new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f))));
-                body.AddRelativeForce(transform.forward * force * Random.Range(1.0f - forceFuzziness, 1.0f + forceFuzziness));
+                //body.AddTorque(transform.up + (new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f))));
+                Vector3 force2 = transform.forward * (force * Random.Range(1.0f - forceFuzziness, 1.0f + forceFuzziness));
+                force2.Normalize();
+                body.AddForce(force2);
 
 
             }
@@ -94,7 +96,6 @@ namespace CMythos
                 newDice = Instantiate(basis, vect,
 
                 Quaternion.FromToRotation(-vect, new Vector3(Random.Range(-2.0f, 2.0f), Random.Range(-2.0f, 2.0f), Random.Range(-2.0f, 2.0f))), transform);
-                newDice.gameObject.layer = LayerMask.NameToLayer("DiceCollision");
                 newDice.DiceBoxCollider = boxCollider;
             }
             else

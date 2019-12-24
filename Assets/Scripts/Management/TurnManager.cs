@@ -147,7 +147,7 @@ namespace CMythos
         {
             TurnStartEvent.Invoke(managable);
             managable.TurnStartedEvent.Invoke();
-            playerViewUI.CurrentPlayer = managable.GetComponent<GameBoardPlayer>();
+            
             
         }
     }

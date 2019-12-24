@@ -24,7 +24,7 @@ namespace CMythos
             get => diceBoxCollider;
             set => diceBoxCollider = value;
         }
-        private BoxCollider diceCollisionBoxCollider;
+        private float timeout = 50;
 
 
 
@@ -37,6 +37,7 @@ namespace CMythos
 
         public bool IsStable()
         {
+
             return rigidbody.IsSleeping();
         }
         public string GetValue()
@@ -70,8 +71,9 @@ namespace CMythos
             for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
                 values.Add(_keys[i], _values[i]);
         }
-        private void Update()
+        private void FixedUpdate()
         {
+
             if (stabilized && !IsStable())
             {
                 foreach (var d in GetComponentsInParent<DiceShooter>())

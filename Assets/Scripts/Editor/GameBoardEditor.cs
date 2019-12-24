@@ -346,7 +346,11 @@ public class GameBoardEditor2 : Editor
     private void RefreshTileProperties(Vector3Int coordinates)
     {
         int index = coordinates.y * (Width * Length) + coordinates.z * (Width) + coordinates.x;
-        GameBoardTile tile = gameBoard.tiles[index];
+        GameBoardTile tile;
+        if (index > 0 && index < gameBoard.tiles.Length) 
+        tile = gameBoard.tiles[index];
+        else
+        tile = null;
 
         isRefreshingTileProperties = true;
         if (tile == null)

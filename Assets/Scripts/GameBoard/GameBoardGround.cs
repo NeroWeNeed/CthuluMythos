@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CMythos
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer),typeof(MeshCollider))]
     public class GameBoardGround : MonoBehaviour
     {
         private Mesh mesh;
@@ -25,6 +25,7 @@ namespace CMythos
                 mesh = new Mesh();
             UpdateMesh();
             GetComponent<MeshFilter>().sharedMesh = mesh;
+            GetComponent<MeshCollider>().sharedMesh = mesh;
         }
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace CMythos
                 mesh = new Mesh();
             UpdateMesh();
             GetComponent<MeshFilter>().sharedMesh = mesh;
+            GetComponent<MeshCollider>().sharedMesh = mesh;
         }
         public void UpdateMesh(float width = -1.0f, float length = -1.0f)
         {

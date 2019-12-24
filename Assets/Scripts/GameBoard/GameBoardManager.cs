@@ -11,14 +11,32 @@ namespace CMythos
         {
             get => invalidTile;
         }
+
+
+
         [SerializeField]
         private int cardsPerDeck = 40;
+        public int CardsPerDeck
+        {
+            get => cardsPerDeck;
+        }
 
-        
 
 
         [SerializeField]
         private GameBoard gameBoard;
+        public GameBoard GameBoard
+        {
+            get => gameBoard;
+        }
+
+        [SerializeField]
+        private DiceShooter diceShooter;
+        public DiceShooter DiceShooter
+        {
+            get => diceShooter;
+        }
+
 
         [SerializeField]
         private Dice[] movementDice;
@@ -28,33 +46,49 @@ namespace CMythos
             get => movementDice;
         }
 
-        public GameBoard GameBoard
-        {
-            get => gameBoard;
-        }
+
         private List<GameBoardEntity> entities;
         public List<GameBoardEntity> Entities
         {
             get => entities;
         }
 
-
-        private Dictionary<GameBoardEntity, GameBoardEntityInfo> entityInfo;
-
-        public Dictionary<GameBoardEntity, GameBoardEntityInfo> EntityInfo
-        {
-            get => entityInfo;
-        }
+        public Dictionary<GameBoardEntity, GameBoardEntityInfo> EntityInfo { get; private set; }
         private bool initialized = false;
         [SerializeField]
         private PlayerViewUI playerViewUI;
+        public PlayerViewUI PlayerViewUI
+        {
+            get => playerViewUI;
+        }
+        [SerializeField]
+        private PlayMatRenderer playMatRenderer;
+
+        public PlayMatRenderer PlayMatRenderer
+        {
+            get => playMatRenderer;
+        }
+
+
+        [SerializeField]
         private TurnManager turnManager;
+
+        public TurnManager TurnManager
+        {
+            get => turnManager;
+        }
         private void Start()
         {
             entities = new List<GameBoardEntity>(GetComponentsInChildren<GameBoardEntity>());
-            entityInfo = new Dictionary<GameBoardEntity, GameBoardEntityInfo>();
-
-
+            EntityInfo = new Dictionary<GameBoardEntity, GameBoardEntityInfo>();
+            if (turnManager == null)
+                turnManager = GetComponentInChildren<TurnManager>();
+            if (playerViewUI == null)
+                playerViewUI = GetComponentInChildren<PlayerViewUI>();
+            if (playMatRenderer == null)
+                playMatRenderer = playerViewUI.GetComponentInChildren<PlayMatRenderer>();
+            if (diceShooter == null)
+                diceShooter = GetComponentInChildren<DiceShooter>();
         }
         public void Init()
         {
@@ -62,44 +96,68 @@ namespace CMythos
             {
                 initialized = true;
                 UpdateEntityInfo();
-                turnManager = GetComponentInChildren<TurnManager>();
+
                 turnManager.PlayerViewUI = playerViewUI;
-                turnManager.Begin();
-                playerViewUI.DiceShooter = GetComponentInChildren<DiceShooter>();
+                playerViewUI.DiceShooter = diceShooter;
                 playerViewUI.GameBoardManager = this;
+                TurnManager.TurnStartEvent.AddListener(x =>
+                {
+
+                    playerViewUI.SetCurrentPlayer(x);
+                });
+                foreach (var item in GetComponentsInChildren<Initializable>())
+                {
+                    item.Init();
+                }
+                turnManager.Begin();
             }
+
         }
+
+
 
         private void UpdateEntityInfo()
         {
-            entityInfo.Clear();
+            EntityInfo.Clear();
             entities.ForEach(x =>
             {
-                entityInfo[x] = x.InitialInfo(gameBoard);
+                EntityInfo[x] = x.InitialInfo(gameBoard);
             });
         }
+        private int countDown = 100;
         private void Update()
         {
-
-            if (Input.GetKey(KeyCode.P))
+            if (countDown > 0)
+                countDown--;
+            else if (countDown == 0)
             {
                 Init();
+                countDown--;
             }
+            
         }
 
         public Vector3Int GetCoordinates(GameBoardEntity entity)
         {
-            return entityInfo[entity].coordinates;
+            return EntityInfo[entity].coordinates;
+        }
+        public GameBoardTile GetTile(GameBoardEntity entity)
+        {
+            Vector3Int coords = GetCoordinates(entity);
+            if (coords != INVALID_TILE)
+                return GameBoard.GetTile(coords);
+            else
+                return null;
         }
 
         public void MoveForward(GameBoardEntity entity)
         {
-            MoveForward(entity, entityInfo[entity].direction);
+            MoveForward(entity, EntityInfo[entity].direction);
         }
 
         public void MoveForward(GameBoardEntity entity, GameBoardEntityDirection preferredDirection)
         {
-            GameBoardEntityInfo info = entityInfo[entity];
+            GameBoardEntityInfo info = EntityInfo[entity];
             if (IsAmbiguousDirection(info))
             {
                 if (CanMove(info.coordinates, preferredDirection))
@@ -139,9 +197,35 @@ namespace CMythos
                 }
                 spaces -= 1;
                 Debug.Log("SPACES LEFT " + spaces);
-                
+
             }
-            
+
+            return 0;
+        }
+        public int TryMove(GameBoardEntity entity, int spaces, GameBoardEntityDirection preferredDirection)
+        {
+            bool followedPreferredDirection = false;
+            while (spaces > 0)
+            {
+                if (IsAmbiguousDirection(entity))
+                {
+                    if (!followedPreferredDirection)
+                    {
+                        MoveForward(entity, preferredDirection);
+                        followedPreferredDirection = true;
+                    }
+                    else
+                        return spaces;
+                }
+                else
+                {
+                    MoveForward(entity);
+                }
+                spaces -= 1;
+                Debug.Log("SPACES LEFT " + spaces);
+
+            }
+
             return 0;
         }
 
@@ -196,7 +280,7 @@ namespace CMythos
 
         public bool IsAmbiguousDirection(GameBoardEntity entity)
         {
-            return IsAmbiguousDirection(entityInfo[entity]);
+            return IsAmbiguousDirection(EntityInfo[entity]);
         }
         private bool IsAmbiguousDirection(GameBoardEntityInfo entityInfo)
         {

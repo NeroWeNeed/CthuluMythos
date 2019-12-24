@@ -179,7 +179,8 @@ MonoBehaviour:
   - PathType: 10
     Effect: {fileID: 8852118762076314474, guid: db3d3bc689f5db64aa29d61ffb525ee3,
       type: 3}
-    Render: {fileID: 0}
+    Render: {fileID: 9087195288498606340, guid: 7457089a43bde924a82d500d15647856,
+      type: 3}
   - PathType: 3
     Effect: {fileID: 0}
     Render: {fileID: 0}

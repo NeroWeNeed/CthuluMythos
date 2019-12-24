@@ -1,12 +1,20 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using CMythos.Events;
 
 namespace CMythos
 {
     [RequireComponent(typeof(Canvas))]
     public class PlayerViewUI : MonoBehaviour
     {
+        [SerializeField]
+        private PlayerChangedEvent playerChanged;
+
+        public PlayerChangedEvent PlayerChanged
+        {
+            get => playerChanged;
+        }
 
 
         [SerializeField]
@@ -18,12 +26,6 @@ namespace CMythos
             set
             {
                 currentPlayer = value;
-                if (currentPlayer != null)
-                {
-                    CanMove = true;
-                    CanDraw = true;
-                }
-                movingSum = 0;
             }
         }
         [SerializeField]
@@ -43,72 +45,96 @@ namespace CMythos
         }
 
 
-        //Flags
-        private int movingSum = 0;
-        private bool ambiguousPath = false;
-
-
-        private bool CanMove = false;
-        private bool CanDraw = false;
-
         private void Start()
         {
-            CanMove = true;
-            CanDraw = true;
+            if (playerChanged == null)
+                playerChanged = new PlayerChangedEvent();
         }
-        public void MoveCurrentPlayer()
+
+        public void SetCurrentPlayer(TurnManagable turnManagable)
         {
-            if (currentPlayer != null && movingSum == 0 && CanMove)
+
+            currentPlayer = turnManagable.GetComponent<GameBoardPlayer>();
+            GetComponentInChildren<PlayMatPileRenderer>()?.UpdatePile(currentPlayer.PlayMat);
+            foreach (var item in GetComponentsInChildren<PlayerViewUIAction>())
             {
-                Debug.Log("Shooting...");
-                CanMove = false;
-                diceShooter.Shoot(DiceShootCallback, manager.MovementDice);
-
-            }
-
-        }
-        public void DrawCardCurrentPlayer()
-        {
-            if (currentPlayer != null && movingSum == 0 && CanDraw)
-            {
-                Debug.Log("Drawing...");
-                CanDraw = false;
-                currentPlayer.DrawCard();
-
-
+                item.Refresh();
             }
 
         }
-        public void EndCurrentPlayerTurn()
+
+
+        public void DrawCard(GameBoardPlayer player)
         {
-            Debug.Log(movingSum);
-            if (currentPlayer != null && movingSum == 0)
+            Debug.Log("Drawing...");
+            player?.DrawCard();
+        }
+        public void EndTurn(GameBoardPlayer player)
+        {
+            player?.EndTurn();
+        }
+        public void Move(GameBoardPlayer player)
+        {
+            DiceShootCallback diceShootCallback = player.GetComponentInChildren<DiceShootCallback>();
+            if (diceShootCallback == null)
             {
-                Debug.Log("Ending...");
-                currentPlayer.GetComponent<TurnManagable>().EndTurn();
+                GameObject obj = new GameObject("Dice Shooter Callback", typeof(DiceShootCallback));
+                obj.transform.parent = player.transform;
+                diceShooter.Shoot(obj.GetComponent<DiceShootCallback>().Callback, manager.MovementDice);
+
+
+
             }
         }
-        private void DiceShootCallback(Dictionary<Dice, string> values)
+
+        public void SignalNorthDirection(GameBoardPlayer player)
         {
-            int sum = values.Values.Sum(x => System.Convert.ToInt32(x));
-            foreach (var item in values.Keys)
-            {
-                Destroy(item.gameObject);
-            }
-            movingSum = GameBoardManager.TryMove(currentPlayer.GetComponent<GameBoardEntity>(), sum);
-
-            if (movingSum != 0)
-            {
-                ambiguousPath = true;
-            }
-            foreach (var item in GetComponentsInChildren<PlayerCoordinateTracker>())
-            {
-                item.UpdateText(currentPlayer.GetCoordinates().ToString());
-            }
-            
-
-
-
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(GameBoardEntityDirection.NORTH);
+        }
+        public void SignalSouthDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(GameBoardEntityDirection.SOUTH);
+        }
+        public void SignalEastDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(GameBoardEntityDirection.EAST);
+        }
+        public void SignalWestDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(GameBoardEntityDirection.WEST);
+        }
+        public void SignalFowardDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(player.GetComponentInParent<GameBoardManager>().GetInformation(player.GetComponent<GameBoardEntity>()).direction);
+        }
+        public void SignalLeftDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(player.GetComponentInParent<GameBoardManager>().GetInformation(player.GetComponent<GameBoardEntity>()).direction.Left());
+        }
+        public void SignalRightDirection(GameBoardPlayer player)
+        {
+            DiceShootCallback callback = player.GetComponentInChildren<DiceShootCallback>();
+            if (callback == null)
+                return;
+            callback.Choose(player.GetComponentInParent<GameBoardManager>().GetInformation(player.GetComponent<GameBoardEntity>()).direction.Right());
         }
     }
 

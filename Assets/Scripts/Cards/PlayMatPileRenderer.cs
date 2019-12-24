@@ -61,9 +61,14 @@ namespace CMythos
             else
                 CurrentPile = playMat?.GetPile(pile);
         }
-        public void Refresh()
+        public void UpdatePile(PlayMat playMat)
         {
+            UpdatePile(playMat, pile);
 
+        }
+        public void Refresh(PlayMat playMat)
+        {
+            UpdatePile(playMat);
             if (CurrentPile.Cards.Count > 0)
             {
                 rawImage.texture = CurrentPile.Cards.Peek().graphic;

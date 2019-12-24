@@ -22,6 +22,8 @@ namespace CMythos
 
         [SerializeField]
         private Texture2D texture;
+        [SerializeField]
+        private float scale;
 
         private void Start()
         {
@@ -50,22 +52,23 @@ namespace CMythos
                     discardPileRenderer.Pile = item;
                     discardPileRenderer.PlayMat = playMat;
                     discardPileRenderer.IsDiscardPile = true;
-                    obj.transform.SetParent(transform, false);
-                    obj2.transform.SetParent(transform, false);
+
 
                     if (index == 0)
                     {
-                        obj.transform.position = new Vector3(pileHorizontalMargin, 0, 0);
-                        obj2.transform.position = new Vector3(pileHorizontalMargin, Card.CARD_HEIGHT + 20, 0);
-                        lastX += pileHorizontalMargin;
 
+                        obj.transform.position = new Vector3(0, 0, 0);
+                        obj2.transform.position = new Vector3(0, Card.CARD_HEIGHT + 20, 0);
+                        lastX = Card.CARD_WIDTH + pileSpacing;
                     }
                     else
                     {
-                        obj.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, 0, 0);
-                        obj2.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, Card.CARD_HEIGHT + 20, 0);
+                        obj.transform.position = new Vector3(lastX, 0, 0);
+                        obj2.transform.position = new Vector3(lastX, Card.CARD_HEIGHT + 20, 0);
                         lastX += Card.CARD_WIDTH + pileSpacing;
                     }
+                    obj.transform.SetParent(transform, false);
+                    obj2.transform.SetParent(transform, false);
 
 
                 }
@@ -74,11 +77,20 @@ namespace CMythos
             }
         }
 
-        public void Refresh()
+        public void SetPlayerPlayMat(GameBoardPlayer player)
         {
             foreach (var item in GetComponentsInChildren<PlayMatPileRenderer>())
             {
-                item.Refresh();
+                item.UpdatePile(player.PlayMat);
+
+                item.Refresh(player.PlayMat);
+            }
+        }
+        public void Refresh(PlayMat playMat)
+        {
+            foreach (var item in GetComponentsInChildren<PlayMatPileRenderer>())
+            {
+                item.Refresh(playMat);
             }
         }
     }

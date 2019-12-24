@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CMythos
 {
-    [RequireComponent(typeof(TurnManagable), typeof(GameBoardEntity))]
+    [RequireComponent(typeof(TurnManagable), typeof(GameBoardEntity), typeof(Initializable))]
     public class GameBoardPlayer : MonoBehaviour
     {
 
@@ -13,6 +13,10 @@ namespace CMythos
         private TurnManagable turnManagable;
         private GameBoardEntity entity;
         private PlayMat playMat;
+        public PlayMat PlayMat
+        {
+            get => playMat;
+        }
         private Hand hand;
 
         [SerializeField]
@@ -41,20 +45,8 @@ namespace CMythos
             entity = GetComponent<GameBoardEntity>();
             entity.InfoInitializer = FindAsylum;
             playMat = new PlayMat();
-            playMatRenderer = GetComponentInChildren<PlayMatRenderer>();
-            if (playMatRenderer == null)
-            {
-                GameObject obj = new GameObject($"{transform.name} PlayMat Renderer", typeof(PlayMatRenderer));
-                obj.transform.parent = transform;
-                playMatRenderer = obj.GetComponent<PlayMatRenderer>();
-                playMatRenderer.Init(playMat);
-            }
-            if (hand == null)
-            {
-                GameObject obj = new GameObject($"{transform.name} Hand", typeof(Hand));
-                obj.transform.parent = transform;
-                hand = obj.GetComponent<Hand>();
-            }
+
+
 
             turnManagable.TurnStartedEvent.AddListener(InitTurn);
             turnManagable.GetTurnManager().RoundCycleStartEvent.AddListener(Initialize);
@@ -63,13 +55,26 @@ namespace CMythos
         private void Initialize()
         {
             Debug.Log("Initiating...");
-            hand.InitializeDeck();
-            while (hand.DrawCard() != null)
-            {
 
+            if (hand == null)
+            {
+                GameObject obj = new GameObject($"{transform.name} Hand", typeof(Hand));
+                obj.transform.parent = GetComponentInParent<GameBoardManager>().PlayerViewUI.transform;
+                hand = obj.GetComponent<Hand>();
+                hand.player = this;
+                hand.Initialize();
+                hand.InitializeDeck();
             }
+
+
+            playMatRenderer = GetComponentInParent<GameBoardManager>().PlayMatRenderer;
+            playMatRenderer.Init(playMat);
+            while (hand.DrawCard() != null) { }
+
+
         }
-        public Vector3Int GetCoordinates() {
+        public Vector3Int GetCoordinates()
+        {
             return GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates;
         }
 
@@ -146,13 +151,24 @@ namespace CMythos
         {
             if (hand.Discard(card, playMat))
                 card.CardDiscardEvent.Invoke(this, card);
-            playMatRenderer.Refresh();
+            playMatRenderer.Refresh(playMat);
+        }
+        public void Discard(int index)
+        {
+            Card card = hand.GetCard(index);
+            if (hand.Discard(index, playMat))
+                card.CardDiscardEvent.Invoke(this, card);
+            playMatRenderer.Refresh(playMat);
         }
         public void Play(Card card)
         {
             if (hand.Play(card, playMat))
                 card.CardPlayEvent.Invoke(this, card);
-            playMatRenderer.Refresh();
+            playMatRenderer.Refresh(playMat);
+        }
+        public void EndTurn()
+        {
+            turnManagable.EndTurn();
         }
     }
 }

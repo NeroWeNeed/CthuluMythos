@@ -5,7 +5,7 @@ namespace CMythos
     public class GameBoardEntity : MonoBehaviour
     {
         public delegate GameBoardEntityInfo EntityInfoInitializer(GameBoard gameBoard);
-        
+
 
         public EntityInfoInitializer InfoInitializer { get; set; }
 
@@ -64,6 +64,40 @@ namespace CMythos
                     return GameBoardEntityDirection.WEST;
                 case GameBoardEntityDirection.WEST:
                     return GameBoardEntityDirection.EAST;
+                default:
+                    return GameBoardEntityDirection.SOUTH;
+            }
+
+        }
+        public static GameBoardEntityDirection Left(this GameBoardEntityDirection dir)
+        {
+            switch (dir)
+            {
+                case GameBoardEntityDirection.NORTH:
+                    return GameBoardEntityDirection.WEST;
+                case GameBoardEntityDirection.SOUTH:
+                    return GameBoardEntityDirection.EAST;
+                case GameBoardEntityDirection.EAST:
+                    return GameBoardEntityDirection.NORTH;
+                case GameBoardEntityDirection.WEST:
+                    return GameBoardEntityDirection.SOUTH;
+                default:
+                    return GameBoardEntityDirection.SOUTH;
+            }
+
+        }
+                public static GameBoardEntityDirection Right(this GameBoardEntityDirection dir)
+        {
+            switch (dir)
+            {
+                case GameBoardEntityDirection.NORTH:
+                    return GameBoardEntityDirection.EAST;
+                case GameBoardEntityDirection.SOUTH:
+                    return GameBoardEntityDirection.WEST;
+                case GameBoardEntityDirection.EAST:
+                    return GameBoardEntityDirection.SOUTH;
+                case GameBoardEntityDirection.WEST:
+                    return GameBoardEntityDirection.NORTH;
                 default:
                     return GameBoardEntityDirection.SOUTH;
             }

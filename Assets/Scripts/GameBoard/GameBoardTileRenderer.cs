@@ -2,15 +2,18 @@ using UnityEngine;
 
 namespace CMythos
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(Initializable))]
     public class GameBoardTileRenderer : MonoBehaviour
     {
         [SerializeField]
         private Vector3 offset;
         [SerializeField]
+        private GameBoardManager gameBoardManager;
+
+        [SerializeField]
         private GameBoardTile tile;
 
-
+        private bool initiated = false;
 
         public GameBoardTile Tile
         {
@@ -28,6 +31,34 @@ namespace CMythos
             {
                 offset = new Vector3(0f, 100f, 0f);
             }
+            if (gameBoardManager == null)
+            {
+                gameBoardManager = GetComponentInParent<GameBoardManager>();
+            }
+            GetComponent<Initializable>().Initiator = Init;
+
+        }
+        public void Init()
+        {
+            if (!initiated)
+            {
+                initiated = true;
+                gameBoardManager.TurnManager.TurnStartEvent.AddListener(UpdateRender);
+            }
+        }
+        private void UpdateRender(TurnManagable turnManagable)
+        {
+            Debug.Log("updd");
+            GameBoardPlayer player = turnManagable.GetComponent<GameBoardPlayer>();
+            if (player != null)
+            {
+                GameBoardTile tile = gameBoardManager.GetTile(player.GetComponent<GameBoardEntity>());
+                if (tile != null)
+                {
+                    this.tile = tile;
+                    CreateRender();
+                }
+            }
         }
         private void CreateRender()
         {
@@ -35,7 +66,8 @@ namespace CMythos
             {
                 Destroy(transform.GetChild(0));
             }
-            Instantiate(tile.Render, offset, Quaternion.identity, transform);
+            if (tile.Render != null)
+                Instantiate(tile.Render, transform.position + offset, Quaternion.identity, transform);
         }
     }
 }
