@@ -8,73 +8,61 @@ namespace CMythos
     [RequireComponent(typeof(RawImage))]
     public class PlayMatPileRenderer : MonoBehaviour
     {
+        public bool IsDiscardPile { get; set; } = false;
+
 
         [SerializeField]
-        private PlayMat playMat;
-        private bool isDiscardPile = false;
-        public bool IsDiscardPile
+        private CardType pileType;
+
+        public CardType PileType
         {
-            get => isDiscardPile;
+            get => pileType;
             set
             {
-                isDiscardPile = value;
-                UpdatePile(playMat, pile);
+                pileType = value;
             }
         }
 
-        public PlayMat PlayMat
-        {
-            get => playMat;
-            set
-            {
-                playMat = value;
-                UpdatePile(playMat, pile);
-            }
-        }
-
-        [SerializeField]
-        private CardType pile;
-
-        public CardType Pile
-        {
-            get => pile;
-            set
-            {
-                pile = value;
-                UpdatePile(playMat, pile);
-            }
-        }
-
-        public PlayMatPile CurrentPile { get; private set; }
         private RawImage rawImage;
-        private void Start()
+        private bool initialized = false;
+        private void Start() {
+            Init();
+        }
+        private void Init()
         {
+            initialized = true;
             rawImage = GetComponent<RawImage>();
             rawImage.rectTransform.sizeDelta = new Vector2(Card.CARD_WIDTH, Card.CARD_HEIGHT);
 
         }
 
-        private void UpdatePile(PlayMat playMat, CardType pile)
-        {
-            if (IsDiscardPile)
-                CurrentPile = playMat?.GetDiscardPile(pile);
-            else
-                CurrentPile = playMat?.GetPile(pile);
-        }
-        public void UpdatePile(PlayMat playMat)
-        {
-            UpdatePile(playMat, pile);
-
-        }
         public void Refresh(PlayMat playMat)
         {
-            UpdatePile(playMat);
-            if (CurrentPile.Cards.Count > 0)
-            {
-                rawImage.texture = CurrentPile.Cards.Peek().graphic;
-            }
-        }
+            
+            if (!initialized)
+                Init();
 
+            rawImage.texture = GetPileTopCard(playMat);
+            
+
+        }
+        private PlayMatPile GetPile(PlayMat playMat)
+        {
+
+            if (IsDiscardPile)
+                return playMat?.GetDiscardPile(pileType);
+            else
+                return playMat?.GetPile(pileType);
+        }
+        private Texture2D GetPileTopCard(PlayMat playMat)
+        {
+            
+            PlayMatPile pile = GetPile(playMat);
+            if (pile == null)
+                return null;
+            else
+                return pile.GetTopCard()?.graphic;
+        }
 
 
     }

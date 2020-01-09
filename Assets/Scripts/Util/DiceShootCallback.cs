@@ -26,6 +26,9 @@ namespace CMythos
             {
                 Destroy(this.gameObject);
             }
+            else {
+                GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionEvent?.Invoke();
+            }
         }
         public void Choose(GameBoardEntityDirection direction)
         {
@@ -35,7 +38,11 @@ namespace CMythos
 
                 if (movingSum == 0)
                 {
+                    GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent?.Invoke();
                     Destroy(this.gameObject);
+                }
+                else {
+                    GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionEvent?.Invoke();
                 }
             }
         }

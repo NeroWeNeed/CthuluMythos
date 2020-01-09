@@ -51,16 +51,13 @@ namespace CMythos
         {
             if (Card != null)
             {
-                Hand hand = GetComponentInParent<Hand>();
-                int pos = 0;
-                foreach (var item in hand.GetComponentsInChildren<CardRenderer>())
+                HandRenderer handRenderer = GetComponentInParent<HandRenderer>();
+                int pos = System.Array.IndexOf(handRenderer.GetComponentsInChildren<CardRenderer>(), this);
+                if (pos != -1)
                 {
-                    if (item == this)
-                    {
-                        hand.player.Discard(pos);
-                    }
-                    else
-                        pos++;
+
+                    handRenderer.Player.Discard(pos);
+                    handRenderer.UpdateCardRenderers();
                 }
 
             }

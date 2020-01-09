@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 namespace CMythos
 {
@@ -83,10 +84,13 @@ namespace CMythos
         }
         private void LayoutPlayMatPileRenderer(PlayMatRenderer playMatRenderer, GameBoardGround gameBoardGround)
         {
-            playMatRenderer.transform.position = new Vector3(gameBoardGround.transform.position.x+(gameBoardGround.Width/2),gameBoardGround.transform.position.y+0.01f,gameBoardGround.transform.position.z+(gameBoardGround.Length/2));
+            Debug.Log(playMatRenderer.GetComponent<RectTransform>().sizeDelta);
+            Debug.Log(playMatRenderer.GetComponentsInChildren<RectTransform>().Sum(x => x.rect.width*x.localScale.x)/8);
+            
+            playMatRenderer.transform.position = new Vector3(gameBoardGround.transform.position.x + (gameBoardGround.Width / 2), gameBoardGround.transform.position.y + 0.01f, gameBoardGround.transform.position.z + (gameBoardGround.Length / 2));
             //playMatRenderer.transform.position = gameBoardGround.transform.position;
             playMatRenderer.transform.rotation = Quaternion.Euler(90.0f, 0, 0);
-            playMatRenderer.transform.localScale = new Vector3(0.01f,0.01f,0.01f);
+            playMatRenderer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         }
 
     }

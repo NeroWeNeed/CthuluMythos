@@ -29,7 +29,9 @@ namespace CMythos
         }
         public void Discard(Card card)
         {
+            
             DiscardPiles[card.Type].Cards.Push(card);
+            
         }
         public void Play(Card card)
         {

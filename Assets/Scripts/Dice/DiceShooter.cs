@@ -75,7 +75,7 @@ namespace CMythos
             {
                 newDice = SpawnDice(d, create);
                 body = newDice.GetComponent<Rigidbody>();
-                //body.AddTorque(transform.up + (new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f))));
+                body.AddTorque(transform.up + (new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f))));
                 Vector3 force2 = transform.forward * (force * Random.Range(1.0f - forceFuzziness, 1.0f + forceFuzziness));
                 force2.Normalize();
                 body.AddForce(force2);
@@ -139,15 +139,6 @@ namespace CMythos
 
         }
 
-        public void LogSum(Dictionary<Dice, string> values)
-        {
-            Debug.Log($"Sum is {values.Values.Sum(x => System.Convert.ToInt32(x))}");
-        }
-        public void LogValues(Dice dice, string value)
-        {
-            Debug.Log($"Value of {dice.name} is {value}");
-        }
-
         public class ShootInfo
         {
             public Dice[] dice;
@@ -166,7 +157,6 @@ namespace CMythos
             public void Update(Dice dice, string value)
             {
                 values[dice] = value;
-                Debug.Log(values);
             }
         }
 

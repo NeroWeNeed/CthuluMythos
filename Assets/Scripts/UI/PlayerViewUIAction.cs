@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace CMythos
 {
-    [RequireComponent(typeof(Button))]
+    [RequireComponent(typeof(Button), typeof(PlayerViewUIRefreshable))]
     public class PlayerViewUIAction : MonoBehaviour
     {
         [SerializeField]
@@ -43,7 +43,7 @@ namespace CMythos
             if (playerUIActionEvent == null)
                 playerUIActionEvent = new PlayerUIActionEvent();
             GetComponent<Button>().onClick.AddListener(PlayerUIAction);
-
+            GetComponent<PlayerViewUIRefreshable>().Refresher = Refresh;
         }
         private void PlayerUIAction()
         {
@@ -54,7 +54,7 @@ namespace CMythos
                 playerUIActionEvent.Invoke(playerViewUI.CurrentPlayer);
             }
         }
-        public void Refresh()
+        public void Refresh(GameBoardPlayer player)
         {
             available = true;
         }

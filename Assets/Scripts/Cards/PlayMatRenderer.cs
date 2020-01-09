@@ -8,9 +8,6 @@ namespace CMythos
     public class PlayMatRenderer : MonoBehaviour
     {
 
-
-        [SerializeField]
-        private PlayMat playMat;
         [SerializeField]
         private float pileSpacing = 5.0f;
 
@@ -25,14 +22,13 @@ namespace CMythos
         [SerializeField]
         private float scale;
 
-        private void Start()
-        {
-            Init(playMat);
+        public float Width { get; private set; }
 
-        }
-        public void Init(PlayMat playMat)
+        public float Height { get; private set; }
+
+        public void Init()
         {
-            this.playMat = playMat;
+
             PlayMatPileRenderer[] renderers = GetComponentsInChildren<PlayMatPileRenderer>();
             GameObject obj;
             GameObject obj2;
@@ -41,30 +37,28 @@ namespace CMythos
             var index = 0;
             foreach (var item in Enum.GetValues(typeof(CardType)).Cast<CardType>())
             {
-                if (renderers.All(x => x.Pile != item))
+                if (renderers.All(x => x.PileType != item))
                 {
                     obj = new GameObject($"{item} Pile Renderer", typeof(PlayMatPileRenderer));
                     obj2 = new GameObject($"{item} Discard Pile Renderer", typeof(PlayMatPileRenderer));
                     pileRenderer = obj.GetComponent<PlayMatPileRenderer>();
                     discardPileRenderer = obj2.GetComponent<PlayMatPileRenderer>();
-                    pileRenderer.Pile = item;
-                    pileRenderer.PlayMat = playMat;
-                    discardPileRenderer.Pile = item;
-                    discardPileRenderer.PlayMat = playMat;
+                    pileRenderer.PileType = item;
+                    discardPileRenderer.PileType = item;
                     discardPileRenderer.IsDiscardPile = true;
 
 
                     if (index == 0)
                     {
 
-                        obj.transform.position = new Vector3(0, 0, 0);
-                        obj2.transform.position = new Vector3(0, Card.CARD_HEIGHT + 20, 0);
+                        obj2.transform.position = new Vector3(0, 0, 0);
+                        obj.transform.position = new Vector3(0, Card.CARD_HEIGHT + 20, 0);
                         lastX = Card.CARD_WIDTH + pileSpacing;
                     }
                     else
                     {
-                        obj.transform.position = new Vector3(lastX, 0, 0);
-                        obj2.transform.position = new Vector3(lastX, Card.CARD_HEIGHT + 20, 0);
+                        obj2.transform.position = new Vector3(lastX, 0, 0);
+                        obj.transform.position = new Vector3(lastX, Card.CARD_HEIGHT + 20, 0);
                         lastX += Card.CARD_WIDTH + pileSpacing;
                     }
                     obj.transform.SetParent(transform, false);
@@ -75,19 +69,15 @@ namespace CMythos
                 index++;
 
             }
+            Width = lastX;
+            Height = Card.CARD_HEIGHT * 2 + 20;
+            
+            gameObject.transform.position += new Vector3(-GetComponent<Canvas>().pixelRect.width/2,0,0);
         }
 
-        public void SetPlayerPlayMat(GameBoardPlayer player)
-        {
-            foreach (var item in GetComponentsInChildren<PlayMatPileRenderer>())
-            {
-                item.UpdatePile(player.PlayMat);
-
-                item.Refresh(player.PlayMat);
-            }
-        }
         public void Refresh(PlayMat playMat)
         {
+
             foreach (var item in GetComponentsInChildren<PlayMatPileRenderer>())
             {
                 item.Refresh(playMat);

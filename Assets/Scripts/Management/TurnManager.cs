@@ -70,7 +70,7 @@ namespace CMythos
             set => playerViewUI = value;
         }
 
-        private void Awake()
+        private void Start()
         {
             turnEntities = new List<TurnManagable>(GetComponentsInChildren<TurnManagable>());
             if (turnStartEvent == null)
@@ -86,11 +86,14 @@ namespace CMythos
             if (roundCycleEndEvent == null)
                 roundCycleEndEvent = new RoundCycleEndEvent();
         }
-        public void Begin()
+        public void Init(int playerCount)
         {
             if (!Active)
             {
                 Active = true;
+                turnEntities.AddRange(GetComponentsInChildren<TurnManagable>());
+
+                
                 InitRound();
                 roundCycleStartEvent.Invoke();
                 RoundStartEvent.Invoke(turnOrder);
@@ -145,10 +148,11 @@ namespace CMythos
         }
         private void NextTurn(TurnManagable managable)
         {
+
             TurnStartEvent.Invoke(managable);
             managable.TurnStartedEvent.Invoke();
-            
-            
+
+
         }
     }
 

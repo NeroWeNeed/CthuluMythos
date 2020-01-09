@@ -36,6 +36,8 @@ namespace CMythos
             set => diceShooter = value;
         }
         [SerializeField]
+        public HandRenderer HandRenderer;
+        [SerializeField]
         private GameBoardManager manager;
 
         public GameBoardManager GameBoardManager
@@ -45,29 +47,71 @@ namespace CMythos
         }
 
 
-        private void Start()
+
+        public void Init()
         {
             if (playerChanged == null)
                 playerChanged = new PlayerChangedEvent();
-        }
+            GameBoardManager.AmbiguousDirectionEvent.AddListener(() =>
+            {
+                Debug.Log("AMBIGUOUS FOUND");
+                foreach (var item in GameObject.FindGameObjectsWithTag("DirectionSelect"))
+                {
+                    for (int i = 0; i < item.transform.childCount; i++)
+                    {
+                        item.transform.GetChild(i).gameObject.SetActive(true);
+                    }
 
+
+                }
+
+            });
+            GameBoardManager.AmbiguousDirectionSolvedEvent.AddListener(() =>
+            {
+                
+                foreach (var item in GameObject.FindGameObjectsWithTag("DirectionSelect"))
+                {
+                    for (int i = 0; i < item.transform.childCount; i++)
+                    {
+                        item.transform.GetChild(i).gameObject.SetActive(false);
+                    }
+
+
+                }
+
+            });
+            if (HandRenderer == null)
+            {
+                HandRenderer = GetComponentInChildren<HandRenderer>();
+                if (HandRenderer == null)
+                {
+                    GameObject obj = new GameObject("Hand Renderer", typeof(HandRenderer));
+                    obj.transform.SetParent(transform);
+                    HandRenderer = obj.GetComponent<HandRenderer>();
+
+                }
+            }
+            HandRenderer.Initialize();
+        }
         public void SetCurrentPlayer(TurnManagable turnManagable)
         {
 
             currentPlayer = turnManagable.GetComponent<GameBoardPlayer>();
-            GetComponentInChildren<PlayMatPileRenderer>()?.UpdatePile(currentPlayer.PlayMat);
-            foreach (var item in GetComponentsInChildren<PlayerViewUIAction>())
+            GetComponentInChildren<PlayMatPileRenderer>()?.Refresh(currentPlayer.PlayMat);
+            HandRenderer.UpdateCardRenderers();
+            foreach (var item in GetComponentsInChildren<PlayerViewUIRefreshable>())
             {
-                item.Refresh();
+                if (item.Refresher != null)
+                    item.Refresher.Invoke(currentPlayer);
             }
-
         }
 
 
         public void DrawCard(GameBoardPlayer player)
         {
-            Debug.Log("Drawing...");
-            player?.DrawCard();
+            Debug.Log("Drawing for player " + player.name);
+            if (player?.DrawCard() != null)
+                GetComponentInChildren<HandRenderer>().UpdateCardRenderers();
         }
         public void EndTurn(GameBoardPlayer player)
         {

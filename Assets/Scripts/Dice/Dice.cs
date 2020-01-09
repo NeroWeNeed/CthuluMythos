@@ -34,15 +34,16 @@ namespace CMythos
         }
         private Rigidbody rigidbody;
         private bool stabilized = false;
+        private bool forceStabilized = false;
 
         public bool IsStable()
         {
 
-            return rigidbody.IsSleeping();
+            return rigidbody.IsSleeping() || forceStabilized;
         }
-        public string GetValue()
+        public string GetValue(bool force = false)
         {
-            if (IsStable())
+            if (IsStable() || force)
             {
 
                 foreach (var kvp in values)
@@ -61,9 +62,6 @@ namespace CMythos
         private void Start()
         {
             rigidbody = GetComponent<Rigidbody>();
-            if (DiceCollisionLayer == -1)
-                DiceCollisionLayer = LayerMask.NameToLayer("DiceCollision");
-            Debug.Log($"Created at {transform.position}");
         }
         public void OnAfterDeserialize()
         {
@@ -71,9 +69,26 @@ namespace CMythos
             for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
                 values.Add(_keys[i], _values[i]);
         }
+
+        int maxTime = 10;
+        int count = 0;
         private void FixedUpdate()
         {
+            if (count >= maxTime / Time.fixedDeltaTime)
+            {
+                forceStabilized = true;
+                foreach (var d in GetComponentsInParent<DiceShooter>())
+                {
 
+                    d.DiceStabilized.Invoke(this, GetValue(true));
+                }
+                stabilized = true;
+                return;
+            }
+            else
+            {
+                count++;
+            }
             if (stabilized && !IsStable())
             {
                 foreach (var d in GetComponentsInParent<DiceShooter>())
@@ -98,11 +113,7 @@ namespace CMythos
                 }
             }
 
-            if (diceBoxCollider.GetComponent<BoxCollider>().bounds.Contains(transform.position))
-            {
-                Debug.Log("Inside");
-                gameObject.layer = DiceCollisionLayer;
-            }
+
 
         }
         public void OnBeforeSerialize()

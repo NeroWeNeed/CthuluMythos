@@ -17,13 +17,15 @@ namespace CMythos
         {
             get => playMat;
         }
-        private Hand hand;
+        public Hand Hand { get; private set; }
+
+        public Deck Deck { get; private set; }
+
+        
+        private PlayMatRenderer PlayMatRenderer { get => GetComponentInParent<GameBoardManager>()?.PlayMatRenderer; }
 
         [SerializeField]
-        private PlayMatRenderer playMatRenderer;
-
-        [SerializeField]
-        private float health;
+        private float health = 100.0f;
 
         public float Health
         {
@@ -31,7 +33,7 @@ namespace CMythos
             set => health = value;
         }
         [SerializeField]
-        private float sanity;
+        private float sanity = 100.0f;
 
         public float Sanity
         {
@@ -39,49 +41,35 @@ namespace CMythos
             set => sanity = value;
         }
 
-        void Start()
+        public void Init()
         {
+
             turnManagable = GetComponent<TurnManagable>();
             entity = GetComponent<GameBoardEntity>();
             entity.InfoInitializer = FindAsylum;
             playMat = new PlayMat();
-
-
+            Hand = new Hand();
+            Deck = new Deck();
+            Hand.Fill(Deck);
 
             turnManagable.TurnStartedEvent.AddListener(InitTurn);
-            turnManagable.GetTurnManager().RoundCycleStartEvent.AddListener(Initialize);
+            
 
         }
-        private void Initialize()
-        {
-            Debug.Log("Initiating...");
 
-            if (hand == null)
-            {
-                GameObject obj = new GameObject($"{transform.name} Hand", typeof(Hand));
-                obj.transform.parent = GetComponentInParent<GameBoardManager>().PlayerViewUI.transform;
-                hand = obj.GetComponent<Hand>();
-                hand.player = this;
-                hand.Initialize();
-                hand.InitializeDeck();
-            }
-
-
-            playMatRenderer = GetComponentInParent<GameBoardManager>().PlayMatRenderer;
-            playMatRenderer.Init(playMat);
-            while (hand.DrawCard() != null) { }
-
-
-        }
         public Vector3Int GetCoordinates()
         {
-            return GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates;
+            Debug.Log(GetComponentInParent<TurnManager>());
+            Debug.Log(entity);
+            Debug.Log(GetComponentInParent<GameBoardManager>().GetInformation(entity));
+            return transform.parent.GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates;
         }
 
 
         private void InitTurn()
         {
-            Debug.Log("My Turn");
+            Debug.Log($"{name}'s turn");
+            GetComponentInParent<GameBoardManager>()?.PlayMatRenderer?.Refresh(playMat);
             foreach (var item in playMat.Piles.Values)
             {
                 foreach (var item2 in item.Cards)
@@ -89,20 +77,17 @@ namespace CMythos
                     item2.CardActiveEvent.Invoke(this, item2);
                 }
             }
+
         }
 
         private GameBoardEntityInfo FindAsylum(GameBoard gameBoard)
         {
-            Debug.Log("SEARCHING FOR ASYLUM");
+            
             foreach (var item in gameBoard.tiles)
             {
-
-
                 if (item.Effect != null && item.Effect.tag == "Asylum")
                 {
                     Vector3Int coords = gameBoard.GetCoordinates(item);
-                    Debug.Log($"Starting at {coords}");
-                    Debug.Log($"Direction {GetComponentInParent<GameBoardManager>().PathOutDirection(coords)?.Opposite() ?? GameBoardEntityDirection.NORTH}");
                     return new GameBoardEntityInfo
                     {
                         coordinates = coords,
@@ -117,54 +102,45 @@ namespace CMythos
                 coordinates = new Vector3Int(-1, -1, -1)
             };
         }
-        private bool toggled = false;
-        private void Update()
-        {
-
-            if (Input.GetKey(KeyCode.Space) && !toggled)
-            {
-                toggled = true;
-                Debug.Log($"Player Tile: {GetComponentInParent<GameBoardManager>().GetCoordinates(entity)}");
-            }
-            else
-            {
-                toggled = false;
-            }
-
-        }
 
 
         //General Commands
-        public void DrawCard()
+        public Card DrawCard()
         {
-            Card card = hand.DrawCard();
+            
+            Card card = Hand.Draw(Deck);
             if (card != null)
             {
                 card.CardDrawEvent.Invoke(this, card);
             }
+            return card;
         }
         public bool IsHandFull()
         {
-            return hand.IsHandFull();
+            return Hand.IsFull;
         }
         public void Discard(Card card)
         {
-            if (hand.Discard(card, playMat))
+            if (Hand.Discard(card, playMat))
                 card.CardDiscardEvent.Invoke(this, card);
-            playMatRenderer.Refresh(playMat);
+            PlayMatRenderer.Refresh(playMat);
         }
         public void Discard(int index)
         {
-            Card card = hand.GetCard(index);
-            if (hand.Discard(index, playMat))
+            Card card = Hand.Cards[index];
+            if (Hand.Discard(index, playMat)) {
+
+                PlayMatRenderer.Refresh(playMat);
                 card.CardDiscardEvent.Invoke(this, card);
-            playMatRenderer.Refresh(playMat);
+
+            }
+            
         }
         public void Play(Card card)
         {
-            if (hand.Play(card, playMat))
+            if (Hand.Play(card, playMat))
                 card.CardPlayEvent.Invoke(this, card);
-            playMatRenderer.Refresh(playMat);
+            PlayMatRenderer.Refresh(playMat);
         }
         public void EndTurn()
         {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Events;
 
 namespace CMythos
 {
@@ -12,7 +13,14 @@ namespace CMythos
             get => invalidTile;
         }
 
+        [SerializeField]
+        private UnityEvent ambiguousDirectionEvent;
 
+        public UnityEvent AmbiguousDirectionEvent { get => ambiguousDirectionEvent; set => ambiguousDirectionEvent = value; }
+        [SerializeField]
+        private UnityEvent ambiguousDirectionSolvedEvent;
+
+        public UnityEvent AmbiguousDirectionSolvedEvent { get => ambiguousDirectionSolvedEvent; set => ambiguousDirectionSolvedEvent = value; }
 
         [SerializeField]
         private int cardsPerDeck = 40;
@@ -90,26 +98,41 @@ namespace CMythos
             if (diceShooter == null)
                 diceShooter = GetComponentInChildren<DiceShooter>();
         }
-        public void Init()
+
+        public void StartGame(int playerCount, GameBoard gameBoard = null)
         {
+
             if (!initialized)
             {
                 initialized = true;
-                UpdateEntityInfo();
+                if (gameBoard != null)
+                    this.gameBoard = gameBoard;
+                GameObject obj;
+                PlayMatRenderer.Init();
 
+                for (int i = 0; i < playerCount; i++)
+                {
+                    obj = new GameObject("Player " + (i + 1), typeof(GameBoardPlayer));
+                    obj.transform.SetParent(turnManager.transform);
+                    entities.Add(obj.GetComponent<GameBoardEntity>());
+                    obj.GetComponent<GameBoardPlayer>().Init();
+                }
+
+                UpdateEntityInfo();
                 turnManager.PlayerViewUI = playerViewUI;
                 playerViewUI.DiceShooter = diceShooter;
                 playerViewUI.GameBoardManager = this;
                 TurnManager.TurnStartEvent.AddListener(x =>
                 {
-
                     playerViewUI.SetCurrentPlayer(x);
                 });
-                foreach (var item in GetComponentsInChildren<Initializable>())
-                {
-                    item.Init();
-                }
-                turnManager.Begin();
+                /*                 foreach (var item in GetComponentsInChildren<Initializable>())
+                                {
+                                    item.Init();
+                                } */
+                playerViewUI.Init();
+                turnManager.Init(playerCount);
+
             }
 
         }
@@ -124,18 +147,8 @@ namespace CMythos
                 EntityInfo[x] = x.InitialInfo(gameBoard);
             });
         }
-        private int countDown = 100;
-        private void Update()
-        {
-            if (countDown > 0)
-                countDown--;
-            else if (countDown == 0)
-            {
-                Init();
-                countDown--;
-            }
-            
-        }
+
+
 
         public Vector3Int GetCoordinates(GameBoardEntity entity)
         {

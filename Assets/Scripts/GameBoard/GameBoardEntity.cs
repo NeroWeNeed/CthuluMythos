@@ -17,6 +17,7 @@ namespace CMythos
         }
         public GameBoardEntityInfo InitialInfo(GameBoard gameBoard)
         {
+            Debug.Log(InfoInitializer);
             return InfoInitializer(gameBoard);
         }
         private GameBoardEntityInfo DefaultInitialInfo(GameBoard gameBoard)

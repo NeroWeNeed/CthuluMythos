@@ -9,7 +9,8 @@ namespace CMythos
 
         public void Init()
         {
-            Initiator.Invoke();
+            if (Initiator != null)
+                Initiator.Invoke();
         }
     }
 }

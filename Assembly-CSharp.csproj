@@ -48,7 +48,9 @@
      <Compile Include="Assets\Scripts\Cards\CardEvents.cs" />
      <Compile Include="Assets\Scripts\Cards\CardRenderer.cs" />
      <Compile Include="Assets\Scripts\Cards\CardType.cs" />
+     <Compile Include="Assets\Scripts\Cards\Deck.cs" />
      <Compile Include="Assets\Scripts\Cards\Hand.cs" />
+     <Compile Include="Assets\Scripts\Cards\HandRenderer.cs" />
      <Compile Include="Assets\Scripts\Cards\PlayMat.cs" />
      <Compile Include="Assets\Scripts\Cards\PlayMatPileRenderer.cs" />
      <Compile Include="Assets\Scripts\Cards\PlayMatRenderer.cs" />
@@ -69,9 +71,12 @@
      <Compile Include="Assets\Scripts\Management\TurnManagable.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManager.cs" />
      <Compile Include="Assets\Scripts\PlayerSelect.cs" />
+     <Compile Include="Assets\Scripts\UI\DebugPlayerStats.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUI.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIAction.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIEvents.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerViewUIRefreshable.cs" />
+     <Compile Include="Assets\Scripts\UI\StartMenu.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
      <Compile Include="Assets\Scripts\Util\DiceShootCallback.cs" />
      <Compile Include="Assets\Scripts\Util\Initializable.cs" />

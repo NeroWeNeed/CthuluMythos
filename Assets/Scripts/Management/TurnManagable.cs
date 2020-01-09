@@ -29,17 +29,19 @@ namespace CMythos
         {
             get => turnEndedEvent;
         }
-        private void Start()
+
+        public TurnManagable() : base()
         {
             if (turnStartedEvent == null)
                 turnStartedEvent = new UnityEvent();
             if (turnEndedEvent == null)
                 turnEndedEvent = new UnityEvent();
+            if (initEvent == null)
+                initEvent = new UnityEvent();
         }
-
         public void EndTurn()
         {
-            Debug.Log("woo");
+
             GetComponentInParent<TurnManager>().EndTurn(this);
         }
         public TurnManager GetTurnManager()

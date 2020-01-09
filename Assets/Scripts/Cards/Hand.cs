@@ -1,185 +1,90 @@
-using UnityEngine;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine.UI;
 
 namespace CMythos
 {
-
-    [RequireComponent(typeof(Canvas), typeof(GraphicRaycaster))]
-    public class Hand : MonoBehaviour
+    public class Hand
     {
-        private const int cardsPerHand = 7;
-        public static int CARDS_PER_HAND { get => cardsPerHand; }
+        private const int maxCards = 7;
+        public static int MAX_CARDS { get => maxCards; }
 
-        private const int cardsPerDeck = 40;
-        public static int CARDS_PER_DECK { get => cardsPerDeck; }
-        [SerializeField]
-        private float pileSpacing = 5.0f;
+        private List<Card> cards;
 
-        [SerializeField]
-        private float pileHorizontalMargin = 10.0f;
 
-        public GameBoardPlayer player;
+        public int Count { get => Cards.Count; }
+        public bool IsFull { get => cards.Count < MAX_CARDS; }
 
-        private List<Card> cardsInHand;
-        private Stack<Card> cardsInDeck;
-        private List<CardRenderer> cardRenderers;
-        private bool deckInitialized = false;
-        private Canvas canvas;
-        private void Start()
+        public IReadOnlyList<Card> Cards { get; private set; }
+        public Hand()
         {
-
+            cards = new List<Card>();
+            Cards = cards.AsReadOnly();
 
         }
-        public Card DrawCard()
+        public void Fill(Deck deck)
         {
-            int index = 0;
-            if (!IsHandFull() && !IsDeckEmpty())
+            
+            while (Count < MAX_CARDS) {
+                Draw(deck);
+            }
+        }
+
+
+        public Card Draw(Deck deck)
+        {
+            Card card = deck.Draw();
+            if (card != null)
             {
-                Card card;
-                card = cardsInDeck.Pop();
-                cardsInHand.Add(card);
-                Debug.Log(cardsInHand.IndexOf(card));
-                UpdateCardRenderers();
-
-
-                Debug.Log("Hand size is " + cardsInHand.Count);
+                cards.Add(card);
                 return card;
             }
-            else
-                return null;
+            return null;
         }
-        private void UpdateCardRenderers()
+        public int IndexOf(Card card)
         {
-            for (int i = 0; i < cardRenderers.Count; i++)
-            {
-                if (i < cardsInHand.Count)
-                    cardRenderers[i].Card = cardsInHand[i];
-                else
-                    cardRenderers[i].Card = null;
-            }
-        }
-        public bool IsHandFull()
-        {
-            return cardsInHand.Count >= CARDS_PER_HAND;
-        }
-        public bool IsDeckEmpty()
-        {
-            return cardsInDeck.Count == 0;
-        }
-        public bool Discard(Card card, PlayMat playMat)
-        {
-
-            int index = cardsInHand.IndexOf(card);
-            if (index >= 0)
-            {
-                cardsInHand.RemoveAt(index);
-                UpdateCardRenderers();
-                playMat.Discard(card);
-                return true;
-            }
-            return false;
-        }
-        public Card GetCard(int index)
-        {
-            return cardsInHand[index];
-        }
-        public bool Discard(int index, PlayMat playMat)
-        {
-
-            if (index >= 0)
-            {
-                Card card = cardsInHand.ElementAt(index);
-                cardsInHand.RemoveAt(index);
-                UpdateCardRenderers();
-                playMat.Discard(card);
-                return true;
-            }
-            return false;
+            return cards.IndexOf(card);
         }
         public bool Play(Card card, PlayMat playMat)
         {
-            int index = cardsInHand.IndexOf(card);
-            if (index >= 0)
+            if (cards.Contains(card))
             {
-                cardsInHand.RemoveAt(index);
-                UpdateCardRenderers();
                 playMat.Play(card);
+                cards.Remove(card);
                 return true;
             }
             return false;
         }
-        public void Initialize()
+        public bool Play(int index, PlayMat playMat)
         {
-            Debug.Log("Triggering start");
-            canvas = GetComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            cardsInHand = new List<Card>(CARDS_PER_HAND);
-            cardsInDeck = new Stack<Card>();
-            cardRenderers = new List<CardRenderer>(CARDS_PER_HAND);
-            CardRenderer[] childCardRenderers = GetComponentsInChildren<CardRenderer>();
-            GameObject obj;
-            float lastX = 0.0f;
-            CardRenderer renderer;
-            for (int i = 0; i < CARDS_PER_HAND; i++)
+            if (index < Count && index >= 0)
             {
-                if (i < childCardRenderers.Length)
-                    renderer = childCardRenderers[i];
-
-                else
-                {
-                    obj = new GameObject($"Card Renderer {i}", typeof(CardRenderer));
-                    obj.transform.SetParent(transform, false);
-
-                    renderer = obj.GetComponent<CardRenderer>();
-                    renderer.Initialize();
-                }
-
-                renderer.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, 0, 0);
-                lastX += Card.CARD_WIDTH + pileSpacing;
-
-                cardRenderers.Add(renderer);
-
-                renderer.GetComponent<Button>().onClick.AddListener(renderer.Discard);
+                playMat.Play(cards[index]);
+                cards.RemoveAt(index);
+                return true;
             }
-
+            return false;
         }
-        public void InitializeDeck()
+        public bool Discard(Card card, PlayMat playMat)
         {
-            if (!deckInitialized)
+            if (cards.Contains(card))
             {
-                deckInitialized = true;
-
-                UnityEngine.Object[] cards = Resources.LoadAll("Cards", typeof(Card));
-
-                cardsInDeck.Clear();
-                for (int i = 0; i < 100; i++)
-                {
-
-                    cardsInDeck.Push(Instantiate(cards[UnityEngine.Random.Range(0, cards.Length - 1)]) as Card);
-                }
+                playMat.Discard(card);
+                cards.Remove(card);
+                return true;
             }
-
+            return false;
         }
-        private bool played = false;
-        private void Update()
+        public bool Discard(int index, PlayMat playMat)
         {
-
-            if (Input.GetKey(KeyCode.L))
+            if (index < Count && index >= 0)
             {
-                if (!played)
-                {
-                    played = true;
-                    Debug.Log("Playing...");
-                    player.Discard(cardsInHand.First());
-                }
+                playMat.Discard(cards[index]);
+                cards.RemoveAt(index);
+                return true;
             }
-            else
-                played = false;
+            return false;
         }
+
+
     }
-
 }
