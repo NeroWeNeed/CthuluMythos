@@ -26,7 +26,7 @@ namespace CMythos
         {
 
             obj.transform.SetParent(transform, false);
-            obj.transform.position += new Vector3(20, -20 * num, 0);
+            obj.transform.position += new Vector3(20, -20 * num*GetComponentInParent<Canvas>().scaleFactor, 0);
             Text objText = obj.AddComponent<Text>();
             objText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             objText.color = Color.black;

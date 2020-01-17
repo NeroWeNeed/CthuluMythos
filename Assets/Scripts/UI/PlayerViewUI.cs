@@ -68,7 +68,7 @@ namespace CMythos
                     {
                         child = item.transform.GetChild(i);
                         selector = child.GetComponent<DirectionSelector>();
-
+                        child.gameObject.SetActive(false);
                         if (selector != null && GameBoardManager.CanMove(CurrentPlayer.GetCoordinates(), GameBoardManager.GetDirection(CurrentPlayer.GetComponent<GameBoardEntity>(), selector.Direction)))
                         {
                             child.gameObject.SetActive(true);
@@ -95,7 +95,7 @@ namespace CMythos
 
 
                 }
-                
+
 
             });
             if (HandRenderer == null)

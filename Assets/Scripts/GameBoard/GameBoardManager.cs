@@ -21,6 +21,10 @@ namespace CMythos
         private UnityEvent ambiguousDirectionSolvedEvent;
 
         public UnityEvent AmbiguousDirectionSolvedEvent { get => ambiguousDirectionSolvedEvent; set => ambiguousDirectionSolvedEvent = value; }
+        [SerializeField]
+        private UnityEvent ambiguousDirectionUpdateEvent;
+
+        public UnityEvent AmbiguousDirectionUpdateEvent { get => ambiguousDirectionUpdateEvent; set => ambiguousDirectionUpdateEvent = value; }
 
         [SerializeField]
         private int cardsPerDeck = 40;
@@ -213,7 +217,7 @@ namespace CMythos
             {
                 if (IsAmbiguousDirection(entity))
                 {
-                    
+
                     return spaces;
                 }
                 else
@@ -327,9 +331,9 @@ namespace CMythos
         }
         private bool IsAmbiguousDirection(Vector3Int coordinates, GameBoardEntityDirection forward)
         {
-            
+
             byte b = (byte)((byte)gameBoard.GetTile(coordinates).PathType & (byte)(((int)forward.Opposite()) ^ 15));
-            
+
             return (b & (b - 1)) != 0;
         }
 
