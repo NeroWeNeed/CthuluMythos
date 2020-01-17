@@ -12,7 +12,8 @@ namespace CMythos
 
         [SerializeField]
         private GameBoardManager gameBoardManager;
-
+        [SerializeField]
+        private int initialPlayers = 3;
         private void Start()
         {
 
@@ -20,8 +21,9 @@ namespace CMythos
             {
                 gameBoardManager.PlayMatRenderer.gameObject.SetActive(true);
                 gameBoardManager.PlayerViewUI.gameObject.SetActive(true);
+                
                 gameObject.SetActive(false);
-                gameBoardManager.StartGame(4);
+                gameBoardManager.StartGame(initialPlayers);
 
 
 

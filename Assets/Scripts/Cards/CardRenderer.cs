@@ -21,11 +21,7 @@ namespace CMythos
             }
         }
         private RawImage rawImage;
-        private void Start()
-        {
-            Initialize();
-        }
-        public void Initialize()
+        private void Awake()
         {
             rawImage = GetComponent<RawImage>();
             rawImage.rectTransform.sizeDelta = new Vector2(Card.CARD_WIDTH, Card.CARD_HEIGHT);
@@ -60,6 +56,31 @@ namespace CMythos
                     handRenderer.UpdateCardRenderers();
                 }
 
+            }
+        }
+        public void Play()
+        {
+            if (Card != null)
+            {
+                HandRenderer handRenderer = GetComponentInParent<HandRenderer>();
+                int pos = System.Array.IndexOf(handRenderer.GetComponentsInChildren<CardRenderer>(), this);
+                if (pos != -1)
+                {
+
+                    handRenderer.Player.Play(pos);
+                    handRenderer.UpdateCardRenderers();
+                }
+
+            }
+        }
+        public void Interact()
+        {
+            if (GetComponentInParent<HandRenderer>().LeftControl)
+            {
+                Discard();
+            }
+            else  {
+                Play();
             }
         }
 

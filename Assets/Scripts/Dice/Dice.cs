@@ -59,7 +59,7 @@ namespace CMythos
         }
 
 
-        private void Start()
+        private void Awake()
         {
             rigidbody = GetComponent<Rigidbody>();
         }

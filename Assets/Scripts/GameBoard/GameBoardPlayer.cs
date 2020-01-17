@@ -21,7 +21,7 @@ namespace CMythos
 
         public Deck Deck { get; private set; }
 
-        
+
         private PlayMatRenderer PlayMatRenderer { get => GetComponentInParent<GameBoardManager>()?.PlayMatRenderer; }
 
         [SerializeField]
@@ -41,7 +41,7 @@ namespace CMythos
             set => sanity = value;
         }
 
-        public void Init()
+        public void Awake()
         {
 
             turnManagable = GetComponent<TurnManagable>();
@@ -53,18 +53,23 @@ namespace CMythos
             Hand.Fill(Deck);
 
             turnManagable.TurnStartedEvent.AddListener(InitTurn);
-            
+
 
         }
 
         public Vector3Int GetCoordinates()
         {
-            Debug.Log(GetComponentInParent<TurnManager>());
-            Debug.Log(entity);
-            Debug.Log(GetComponentInParent<GameBoardManager>().GetInformation(entity));
             return transform.parent.GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates;
         }
+        public Vector3Int SetCoordinates(Vector3Int coordinates)
+        {
+            return transform.parent.GetComponentInParent<GameBoardManager>().GetInformation(entity).coordinates = coordinates;
+        }
 
+        public GameBoardManager GetGameBoardManager()
+        {
+            return transform.parent.GetComponentInParent<GameBoardManager>();
+        }
 
         private void InitTurn()
         {
@@ -82,7 +87,7 @@ namespace CMythos
 
         private GameBoardEntityInfo FindAsylum(GameBoard gameBoard)
         {
-            
+
             foreach (var item in gameBoard.tiles)
             {
                 if (item.Effect != null && item.Effect.tag == "Asylum")
@@ -107,7 +112,7 @@ namespace CMythos
         //General Commands
         public Card DrawCard()
         {
-            
+
             Card card = Hand.Draw(Deck);
             if (card != null)
             {
@@ -128,19 +133,32 @@ namespace CMythos
         public void Discard(int index)
         {
             Card card = Hand.Cards[index];
-            if (Hand.Discard(index, playMat)) {
+            if (Hand.Discard(index, playMat))
+            {
 
                 PlayMatRenderer.Refresh(playMat);
                 card.CardDiscardEvent.Invoke(this, card);
 
             }
-            
+
         }
         public void Play(Card card)
         {
             if (Hand.Play(card, playMat))
                 card.CardPlayEvent.Invoke(this, card);
             PlayMatRenderer.Refresh(playMat);
+        }
+        public void Play(int index)
+        {
+            Card card = Hand.Cards[index];
+            if (Hand.Play(index, playMat))
+            {
+
+                PlayMatRenderer.Refresh(playMat);
+                card.CardPlayEvent.Invoke(this, card);
+
+            }
+
         }
         public void EndTurn()
         {

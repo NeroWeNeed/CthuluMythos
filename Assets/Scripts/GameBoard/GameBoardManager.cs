@@ -85,7 +85,7 @@ namespace CMythos
         {
             get => turnManager;
         }
-        private void Start()
+        private void Awake()
         {
             entities = new List<GameBoardEntity>(GetComponentsInChildren<GameBoardEntity>());
             EntityInfo = new Dictionary<GameBoardEntity, GameBoardEntityInfo>();
@@ -115,7 +115,7 @@ namespace CMythos
                     obj = new GameObject("Player " + (i + 1), typeof(GameBoardPlayer));
                     obj.transform.SetParent(turnManager.transform);
                     entities.Add(obj.GetComponent<GameBoardEntity>());
-                    obj.GetComponent<GameBoardPlayer>().Init();
+
                 }
 
                 UpdateEntityInfo();
@@ -162,6 +162,14 @@ namespace CMythos
             else
                 return null;
         }
+        public GameBoardTile GetTile(Vector3Int coords)
+        {
+
+            if (coords != INVALID_TILE)
+                return GameBoard.GetTile(coords);
+            else
+                return null;
+        }
 
         public void MoveForward(GameBoardEntity entity)
         {
@@ -175,8 +183,10 @@ namespace CMythos
             {
                 if (CanMove(info.coordinates, preferredDirection))
                 {
+                    GetTile(info.coordinates).Effect?.TileLeaveEvent?.Invoke(entity, info.coordinates);
                     info.coordinates = info.coordinates.NextTile(preferredDirection);
                     info.direction = preferredDirection;
+                    GetTile(info.coordinates).Effect?.TilePassEvent?.Invoke(entity, info.coordinates);
                 }
             }
             else
@@ -184,8 +194,10 @@ namespace CMythos
                 GameBoardEntityDirection newDir = PathOutDirection(info.coordinates, info.direction) ?? throw new ArgumentOutOfRangeException();
                 if (CanMove(info.coordinates, newDir))
                 {
+                    GetTile(info.coordinates).Effect?.TileLeaveEvent?.Invoke(entity, info.coordinates);
                     info.coordinates = info.coordinates.NextTile(newDir);
                     info.direction = newDir;
+                    GetTile(info.coordinates).Effect?.TilePassEvent?.Invoke(entity, info.coordinates);
                 }
 
 
@@ -201,7 +213,7 @@ namespace CMythos
             {
                 if (IsAmbiguousDirection(entity))
                 {
-                    Debug.Log("AMBIGUOUS");
+                    
                     return spaces;
                 }
                 else
@@ -209,10 +221,9 @@ namespace CMythos
                     MoveForward(entity);
                 }
                 spaces -= 1;
-                Debug.Log("SPACES LEFT " + spaces);
 
             }
-
+            GetTile(entity).Effect?.TileLandEvent?.Invoke(entity, EntityInfo[entity].coordinates);
             return 0;
         }
         public int TryMove(GameBoardEntity entity, int spaces, GameBoardEntityDirection preferredDirection)
@@ -235,10 +246,9 @@ namespace CMythos
                     MoveForward(entity);
                 }
                 spaces -= 1;
-                Debug.Log("SPACES LEFT " + spaces);
 
             }
-
+            GetTile(entity).Effect?.TileLandEvent?.Invoke(entity, EntityInfo[entity].coordinates);
             return 0;
         }
 
@@ -289,6 +299,22 @@ namespace CMythos
             return null;
 
         }
+        public GameBoardEntityDirection GetDirection(GameBoardEntity entity, GameBoardEntityRelativeDirection direction)
+        {
+            GameBoardEntityInfo info = EntityInfo[entity];
+            switch (direction)
+            {
+                case GameBoardEntityRelativeDirection.FORWARD:
+                    return info.direction;
+                case GameBoardEntityRelativeDirection.BACKWARD:
+                    return info.direction.Opposite();
+                case GameBoardEntityRelativeDirection.LEFT:
+                    return info.direction.Left();
+                case GameBoardEntityRelativeDirection.RIGHT:
+                    return info.direction.Right();
+            }
+            throw new UnityException("Invalid Direction");
+        }
 
 
         public bool IsAmbiguousDirection(GameBoardEntity entity)
@@ -301,10 +327,9 @@ namespace CMythos
         }
         private bool IsAmbiguousDirection(Vector3Int coordinates, GameBoardEntityDirection forward)
         {
-            Debug.Log($"Path Type: {gameBoard.GetTile(coordinates).PathType}");
-            Debug.Log($"Forward: {forward}");
+            
             byte b = (byte)((byte)gameBoard.GetTile(coordinates).PathType & (byte)(((int)forward.Opposite()) ^ 15));
-            Debug.Log($"Result: {b}");
+            
             return (b & (b - 1)) != 0;
         }
 

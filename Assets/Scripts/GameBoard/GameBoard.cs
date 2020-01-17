@@ -40,8 +40,7 @@ namespace CMythos
 
 
 
-        // Start is called before the first frame update
-        private void OnEnable()
+        private void Awake()
         {
             if (size == null)
                 size = new Vector3Int(0, 0, 0);
@@ -55,11 +54,7 @@ namespace CMythos
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
         public GameBoardTile GetTile(Vector3Int coordinates)
         {
             return tiles[coordinates.y * (Width * Length) + coordinates.z * (Width) + coordinates.x];

@@ -35,20 +35,15 @@ namespace CMythos
             {
                 gameBoardManager = GetComponentInParent<GameBoardManager>();
             }
-            GetComponent<Initializable>().Initiator = Init;
+
+            gameBoardManager.TurnManager.TurnStartEvent.AddListener(UpdateRender);
+            
 
         }
-        public void Init()
-        {
-            if (!initiated)
-            {
-                initiated = true;
-                gameBoardManager.TurnManager.TurnStartEvent.AddListener(UpdateRender);
-            }
-        }
+
         private void UpdateRender(TurnManagable turnManagable)
         {
-            Debug.Log("updd");
+            
             GameBoardPlayer player = turnManagable.GetComponent<GameBoardPlayer>();
             if (player != null)
             {

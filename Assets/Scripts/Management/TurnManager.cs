@@ -70,7 +70,7 @@ namespace CMythos
             set => playerViewUI = value;
         }
 
-        private void Start()
+        private void Awake()
         {
             turnEntities = new List<TurnManagable>(GetComponentsInChildren<TurnManagable>());
             if (turnStartEvent == null)

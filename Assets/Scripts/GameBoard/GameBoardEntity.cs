@@ -10,7 +10,7 @@ namespace CMythos
         public EntityInfoInitializer InfoInitializer { get; set; }
 
 
-        private void Start()
+        private void Awake()
         {
             if (InfoInitializer == null)
                 InfoInitializer = DefaultInitialInfo;
@@ -51,8 +51,13 @@ namespace CMythos
     {
         NORTH = 8, SOUTH = 4, EAST = 2, WEST = 1
     }
+    public enum GameBoardEntityRelativeDirection
+    {
+        FORWARD, BACKWARD, LEFT, RIGHT
+    }
     public static class GameBoardEntityDirectionUtil
     {
+
         public static GameBoardEntityDirection Opposite(this GameBoardEntityDirection dir)
         {
             switch (dir)
@@ -87,7 +92,7 @@ namespace CMythos
             }
 
         }
-                public static GameBoardEntityDirection Right(this GameBoardEntityDirection dir)
+        public static GameBoardEntityDirection Right(this GameBoardEntityDirection dir)
         {
             switch (dir)
             {

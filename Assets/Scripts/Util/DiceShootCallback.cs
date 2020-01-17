@@ -21,29 +21,37 @@ namespace CMythos
             }
 
             movingSum = GetComponentInParent<GameBoardManager>().TryMove(GetComponentInParent<GameBoardPlayer>().GetComponent<GameBoardEntity>(), sum);
-
-            if (movingSum == 0)
+            Debug.Log("Moving sum is " + movingSum);
+            if (movingSum <= 0)
             {
+                GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent.Invoke();
                 Destroy(this.gameObject);
             }
-            else {
+            else
+            {
                 GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionEvent?.Invoke();
             }
         }
         public void Choose(GameBoardEntityDirection direction)
         {
-            if (movingSum != 0)
+            if (movingSum > 0)
             {
-                movingSum = GetComponentInParent<GameBoardManager>().TryMove(GetComponentInParent<GameBoardPlayer>().GetComponent<GameBoardEntity>(), movingSum,direction);
-
-                if (movingSum == 0)
+                movingSum = GetComponentInParent<GameBoardManager>().TryMove(GetComponentInParent<GameBoardPlayer>().GetComponent<GameBoardEntity>(), movingSum, direction);
+                Debug.Log("Moving sum is " + movingSum);
+                if (movingSum <= 0)
                 {
-                    GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent?.Invoke();
+                    GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent.Invoke();
                     Destroy(this.gameObject);
                 }
-                else {
+                else
+                {
                     GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionEvent?.Invoke();
                 }
+            }
+            else
+            {
+                GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent.Invoke();
+                Destroy(this.gameObject);
             }
         }
 

@@ -47,6 +47,7 @@
   <ItemGroup>     <Compile Include="Assets\Scripts\Editor\DiceEditor.cs" />
      <Compile Include="Assets\Scripts\Editor\DiceShooterEditor.cs" />
      <Compile Include="Assets\Scripts\Editor\GameBoardEditor.cs" />
+     <Compile Include="Assets\Scripts\Editor\GameBoardLayoutUtilEditor.cs" />
      <Compile Include="Assets\Scripts\Editor\NormalVisualizer.cs" />
      <None Include="Assets\Scripts\Editor\DiceEditor.uxml" />
      <None Include="Assets\Scripts\Editor\GameBoardTemplate2.uxml" />

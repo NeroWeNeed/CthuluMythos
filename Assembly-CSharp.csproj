@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Dice\DiceShooter.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoard.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardEffect.cs" />
+     <Compile Include="Assets\Scripts\GameBoard\GameBoardEffectBank.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardEntity.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardEvents.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardGround.cs" />
@@ -70,8 +71,8 @@
      <Compile Include="Assets\Scripts\Management\TurnEvents.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManagable.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManager.cs" />
-     <Compile Include="Assets\Scripts\PlayerSelect.cs" />
      <Compile Include="Assets\Scripts\UI\DebugPlayerStats.cs" />
+     <Compile Include="Assets\Scripts\UI\DirectionSelector.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUI.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIAction.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIEvents.cs" />

@@ -45,30 +45,47 @@ namespace CMythos
             get => manager;
             set => manager = value;
         }
-
+        private void Awake()
+        {
+            if (playerChanged == null)
+                playerChanged = new PlayerChangedEvent();
+        }
 
 
         public void Init()
         {
-            if (playerChanged == null)
-                playerChanged = new PlayerChangedEvent();
+
             GameBoardManager.AmbiguousDirectionEvent.AddListener(() =>
             {
-                Debug.Log("AMBIGUOUS FOUND");
+                Transform child;
+                DirectionSelector selector;
+                bool disablePlayerActions = false;
                 foreach (var item in GameObject.FindGameObjectsWithTag("DirectionSelect"))
                 {
+
+
                     for (int i = 0; i < item.transform.childCount; i++)
                     {
-                        item.transform.GetChild(i).gameObject.SetActive(true);
+                        child = item.transform.GetChild(i);
+                        selector = child.GetComponent<DirectionSelector>();
+
+                        if (selector != null && GameBoardManager.CanMove(CurrentPlayer.GetCoordinates(), GameBoardManager.GetDirection(CurrentPlayer.GetComponent<GameBoardEntity>(), selector.Direction)))
+                        {
+                            child.gameObject.SetActive(true);
+                            disablePlayerActions = true;
+                        }
+
                     }
 
 
                 }
 
+
+
             });
             GameBoardManager.AmbiguousDirectionSolvedEvent.AddListener(() =>
             {
-                
+
                 foreach (var item in GameObject.FindGameObjectsWithTag("DirectionSelect"))
                 {
                     for (int i = 0; i < item.transform.childCount; i++)
@@ -78,6 +95,7 @@ namespace CMythos
 
 
                 }
+                
 
             });
             if (HandRenderer == null)

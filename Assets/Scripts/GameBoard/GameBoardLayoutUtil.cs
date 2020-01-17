@@ -8,14 +8,19 @@ namespace CMythos
     {
         [SerializeField]
         private GameBoardManager gameBoardManager;
+        public GameBoardManager GameBoardManager { get => gameBoardManager; set => gameBoardManager = value;}
 
 
         private DiceShooter diceShooter;
 
         [SerializeField]
         private Camera camera;
+
+        public Camera Camera { get => camera; set => camera = value;}
         [SerializeField]
         private PlayMatRenderer playMatRenderer;
+
+        public PlayMatRenderer PlayMatRenderer { get => playMatRenderer; set => playMatRenderer = value;}
 
         private float distance = 0.01f;
 
@@ -27,7 +32,7 @@ namespace CMythos
 
         private GameBoardTileRenderer gameBoardTileRenderer;
 
-        private void OnGUI()
+        public void Layout()
         {
             if (camera != null && gameBoardManager != null)
             {
@@ -84,13 +89,8 @@ namespace CMythos
         }
         private void LayoutPlayMatPileRenderer(PlayMatRenderer playMatRenderer, GameBoardGround gameBoardGround)
         {
-            Debug.Log(playMatRenderer.GetComponent<RectTransform>().sizeDelta);
-            Debug.Log(playMatRenderer.GetComponentsInChildren<RectTransform>().Sum(x => x.rect.width*x.localScale.x)/8);
             
-            playMatRenderer.transform.position = new Vector3(gameBoardGround.transform.position.x + (gameBoardGround.Width / 2), gameBoardGround.transform.position.y + 0.01f, gameBoardGround.transform.position.z + (gameBoardGround.Length / 2));
-            //playMatRenderer.transform.position = gameBoardGround.transform.position;
-            playMatRenderer.transform.rotation = Quaternion.Euler(90.0f, 0, 0);
-            playMatRenderer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+            playMatRenderer.transform.position = new Vector3((gameBoardGround.transform.position.x + (gameBoardGround.Width / 2))-(playMatRenderer.ApproximateWidth()/2), gameBoardGround.transform.position.y + 0.01f, gameBoardGround.transform.position.z + (gameBoardGround.Length / 2));
         }
 
     }

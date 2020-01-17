@@ -51,14 +51,15 @@ namespace CMythos
                     if (index == 0)
                     {
 
-                        obj2.transform.position = new Vector3(0, 0, 0);
-                        obj.transform.position = new Vector3(0, Card.CARD_HEIGHT + 20, 0);
+                        obj2.transform.localPosition = new Vector3(0, 0, 0);
+
+                        obj.transform.localPosition = new Vector3(0, Card.CARD_HEIGHT + 20, 0);
                         lastX = Card.CARD_WIDTH + pileSpacing;
                     }
                     else
                     {
-                        obj2.transform.position = new Vector3(lastX, 0, 0);
-                        obj.transform.position = new Vector3(lastX, Card.CARD_HEIGHT + 20, 0);
+                        obj2.transform.localPosition = new Vector3(lastX, 0, 0);
+                        obj.transform.localPosition = new Vector3(lastX, Card.CARD_HEIGHT + 20, 0);
                         lastX += Card.CARD_WIDTH + pileSpacing;
                     }
                     obj.transform.SetParent(transform, false);
@@ -71,10 +72,22 @@ namespace CMythos
             }
             Width = lastX;
             Height = Card.CARD_HEIGHT * 2 + 20;
-            
-            gameObject.transform.position += new Vector3(-GetComponent<Canvas>().pixelRect.width/2,0,0);
         }
 
+        public float ApproximateWidth()
+        {
+            var index = 0;
+            float lastX = 0.0f;
+            foreach (var item in Enum.GetValues(typeof(CardType)).Cast<CardType>())
+            {
+                if (index == 0)
+                    lastX = Card.CARD_WIDTH + pileSpacing;
+                else
+                    lastX += Card.CARD_WIDTH + pileSpacing;
+                    index++;
+            }
+            return (lastX-(Card.CARD_WIDTH + pileSpacing))*transform.localScale.x;
+        }
         public void Refresh(PlayMat playMat)
         {
 

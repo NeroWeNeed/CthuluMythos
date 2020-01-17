@@ -25,7 +25,7 @@ namespace CMythos
 
         private RawImage rawImage;
         private bool initialized = false;
-        private void Start() {
+        private void Awake() {
             Init();
         }
         private void Init()

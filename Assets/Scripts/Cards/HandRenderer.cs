@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace CMythos
 {
 
-    [RequireComponent(typeof(Canvas), typeof(GraphicRaycaster),typeof(PlayerViewUIRefreshable))]
+    [RequireComponent(typeof(Canvas), typeof(GraphicRaycaster), typeof(PlayerViewUIRefreshable))]
     public class HandRenderer : MonoBehaviour
     {
         private const int cardsPerHand = 7;
@@ -40,12 +40,7 @@ namespace CMythos
             get => PlayerViewUI.CurrentPlayer;
         }
 
-
-
-        private void Start()
-        {
-
-        }
+        public bool LeftControl { get; private set; }
 
         public void UpdateCardRenderers()
         {
@@ -98,9 +93,16 @@ namespace CMythos
             }
             return false;
         }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+                LeftControl = true;
+            if (Input.GetKeyUp(KeyCode.LeftControl))
+                LeftControl = false;
+        }
         public void Initialize()
         {
-            
+
             canvas = GetComponent<Canvas>();
             PlayerViewUI = GetComponentInParent<PlayerViewUI>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -120,7 +122,6 @@ namespace CMythos
                     obj.transform.SetParent(transform, false);
 
                     renderer = obj.GetComponent<CardRenderer>();
-                    renderer.Initialize();
                 }
 
                 renderer.transform.position = new Vector3(Card.CARD_WIDTH + pileSpacing + lastX, 0, 0);
@@ -128,7 +129,7 @@ namespace CMythos
 
                 cardRenderers.Add(renderer);
 
-                renderer.GetComponent<Button>().onClick.AddListener(renderer.Discard);
+                renderer.GetComponent<Button>().onClick.AddListener(renderer.Interact);
             }
 
         }

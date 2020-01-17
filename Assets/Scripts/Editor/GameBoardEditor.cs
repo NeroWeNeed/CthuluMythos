@@ -109,7 +109,7 @@ public class GameBoardEditor2 : Editor
     }
     public override VisualElement CreateInspectorGUI()
     {
-        Debug.Log("Inspector Created");
+        
         rootElement.Clear();
         visualTree.CloneTree(rootElement);
         gridField = rootElement.Query<Image>("grid").First();
@@ -260,7 +260,6 @@ public class GameBoardEditor2 : Editor
     private void SelectTile(Vector3Int coordinates, bool updatePath)
     {
         Vector3Int oldSelectedTile = selectedTile;
-        Debug.Log(selectedTile);
         selectedTile = coordinates;
         UpdateGridTileTexture(oldSelectedTile);
         if (updatePath)

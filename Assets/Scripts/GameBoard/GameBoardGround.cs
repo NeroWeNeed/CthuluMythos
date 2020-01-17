@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CMythos
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer),typeof(MeshCollider))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public class GameBoardGround : MonoBehaviour
     {
         private Mesh mesh;
@@ -17,16 +17,7 @@ namespace CMythos
         {
             get => size.y;
         }
-        private void Start()
-        {
-            if (size == null)
-                size = new Vector2(200.0f, 100.0f);
-            if (mesh == null)
-                mesh = new Mesh();
-            UpdateMesh();
-            GetComponent<MeshFilter>().sharedMesh = mesh;
-            GetComponent<MeshCollider>().sharedMesh = mesh;
-        }
+
         private void Awake()
         {
             if (size == null)
@@ -50,6 +41,14 @@ namespace CMythos
                 size.y = length;
             if (mesh != null)
                 UpdateMesh(mesh, width, length);
+        }
+        private void OnDrawGizmos()
+        {
+            if (mesh == null)
+                mesh = new Mesh();
+            UpdateMesh();
+            GetComponent<MeshFilter>().sharedMesh = mesh;
+            GetComponent<MeshCollider>().sharedMesh = mesh;
         }
         private void UpdateMesh(Mesh mesh, float width, float length)
         {
