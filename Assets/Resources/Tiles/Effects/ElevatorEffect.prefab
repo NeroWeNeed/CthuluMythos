@@ -46,18 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileLandEvent:
     m_PersistentCalls:
-      m_Calls: []
-  tilePassEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  tileLeaveEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  tileStartTurnEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  tileEndTurnEvent:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1240897256906316158}
         m_MethodName: ElevatorLandEffect
@@ -70,6 +58,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  tilePassEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileLeaveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileStartTurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  tileEndTurnEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1240897256906316158
 MonoBehaviour:
   m_ObjectHideFlags: 0

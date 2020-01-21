@@ -41,9 +41,9 @@ namespace CMythos
 
         }
 
-        private void UpdateRender(TurnManagable turnManagable)
+        public void UpdateRender(TurnManagable turnManagable)
         {
-            
+            Debug.Log("Updating!");
             GameBoardPlayer player = turnManagable.GetComponent<GameBoardPlayer>();
             if (player != null)
             {
@@ -57,10 +57,11 @@ namespace CMythos
         }
         private void CreateRender()
         {
-            while (transform.childCount > 0)
-            {
-                Destroy(transform.GetChild(0));
+            for (int i=0;i<transform.childCount;i++) {
+                
+                Destroy(transform.GetChild(i).gameObject);
             }
+
             if (tile.Render != null)
                 Instantiate(tile.Render, transform.position + offset, Quaternion.identity, transform);
         }

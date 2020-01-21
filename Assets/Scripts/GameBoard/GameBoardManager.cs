@@ -233,6 +233,8 @@ namespace CMythos
         public int TryMove(GameBoardEntity entity, int spaces, GameBoardEntityDirection preferredDirection)
         {
             bool followedPreferredDirection = false;
+            TurnManagable managable = entity.GetComponent<TurnManagable>();
+            Debug.Log(managable);
             while (spaces > 0)
             {
                 if (IsAmbiguousDirection(entity))
@@ -243,16 +245,21 @@ namespace CMythos
                         followedPreferredDirection = true;
                     }
                     else
+                    {
+                        if (managable != null)
+                            GetComponentInChildren<GameBoardTileRenderer>()?.UpdateRender(managable);
                         return spaces;
+                    }
                 }
                 else
                 {
                     MoveForward(entity);
                 }
                 spaces -= 1;
-
             }
             GetTile(entity).Effect?.TileLandEvent?.Invoke(entity, EntityInfo[entity].coordinates);
+            if (managable != null)
+                GetComponentInChildren<GameBoardTileRenderer>().UpdateRender(managable);
             return 0;
         }
 

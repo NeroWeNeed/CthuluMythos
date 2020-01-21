@@ -28,21 +28,5 @@ public class GameBoardEffect : MonoBehaviour
         {
             get => tileLeaveEvent;
         }
-
-        [SerializeField]
-        private TileStartTurnEvent tileStartTurnEvent;
-
-        public TileStartTurnEvent TileStartTurnEvent
-        {
-            get => tileStartTurnEvent;
-        }
-
-        [SerializeField]
-        private TileEndTurnEvent tileEndTurnEvent;
-
-        public TileEndTurnEvent TileEndTurnEvent
-        {
-            get => tileEndTurnEvent;
-        }
     }
 }

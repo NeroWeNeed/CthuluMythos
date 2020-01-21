@@ -274,7 +274,7 @@ ScriptsOnlyBuild:
     className: PlayMatPileRenderer
   - hash:
       serializedVersion: 2
-      Hash: e7aab28b4d02eccb50ca2406cc779de6
+      Hash: d0272ec1ddc720ee819168686e310a31
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: GameBoardManager
@@ -346,7 +346,7 @@ ScriptsOnlyBuild:
     className: ControlPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 34885eee5aae9d9741048d7345456784
+      Hash: 838add442c25742aeeaf691b1aadb070
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: GameBoardEffect

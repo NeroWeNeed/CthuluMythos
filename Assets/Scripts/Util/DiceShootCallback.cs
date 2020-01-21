@@ -19,12 +19,14 @@ namespace CMythos
             {
                 Destroy(item.gameObject);
             }
+            GameBoardManager manager = GetComponentInParent<GameBoardManager>();
+            GameBoardPlayer player = GetComponentInParent<GameBoardPlayer>();
+            movingSum = manager.TryMove(player.GetComponent<GameBoardEntity>(), sum);
 
-            movingSum = GetComponentInParent<GameBoardManager>().TryMove(GetComponentInParent<GameBoardPlayer>().GetComponent<GameBoardEntity>(), sum);
-            Debug.Log("Moving sum is " + movingSum);
             if (movingSum <= 0)
             {
-                GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent.Invoke();
+                manager.AmbiguousDirectionSolvedEvent.Invoke();
+
                 Destroy(this.gameObject);
             }
             else
@@ -36,11 +38,14 @@ namespace CMythos
         {
             if (movingSum > 0)
             {
-                movingSum = GetComponentInParent<GameBoardManager>().TryMove(GetComponentInParent<GameBoardPlayer>().GetComponent<GameBoardEntity>(), movingSum, direction);
-                Debug.Log("Moving sum is " + movingSum);
+                GameBoardManager manager = GetComponentInParent<GameBoardManager>();
+                GameBoardPlayer player = GetComponentInParent<GameBoardPlayer>();
+                movingSum = manager.TryMove(player.GetComponent<GameBoardEntity>(), movingSum, direction);
+                
                 if (movingSum <= 0)
                 {
-                    GetComponentInParent<GameBoardManager>()?.AmbiguousDirectionSolvedEvent.Invoke();
+                    manager.AmbiguousDirectionSolvedEvent.Invoke();
+
                     Destroy(this.gameObject);
                 }
                 else
