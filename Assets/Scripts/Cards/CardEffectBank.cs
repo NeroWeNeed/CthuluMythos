@@ -30,8 +30,11 @@ namespace CMythos
                 {
                     Destroy(item.gameObject);
                 }
-            }, AssetDatabase.LoadAssetAtPath<Dice>("Assets/Resources/Dice/Dice4.prefab"), AssetDatabase.LoadAssetAtPath<Dice>("Assets/Resources/Dice/Dice6.prefab"), AssetDatabase.LoadAssetAtPath<Dice>("Assets/Resources/Dice/Dice8.prefab"),
-            AssetDatabase.LoadAssetAtPath<Dice>("Assets/Resources/Dice/Dice4.prefab"), AssetDatabase.LoadAssetAtPath<Dice>("Assets/Resources/Dice/Dice4.prefab")
+            }, Resources.Load<Dice>("Dice/Dice4"), 
+            Resources.Load<Dice>("Dice/Dice6"), 
+            Resources.Load<Dice>("Dice/Dice8"),
+            Resources.Load<Dice>("Dice/Dice4"), 
+            Resources.Load<Dice>("Dice/Dice4")
             );
         }
     }

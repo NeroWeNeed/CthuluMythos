@@ -2,6 +2,7 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CMythos.Card
+    - CMythos.CardEffectBank
     - CMythos.DebugPlayerStats
     - CMythos.Dice
     - CMythos.DiceCollisionBox
@@ -100,27 +101,29 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10606}
     - Class: 114
-      Script: {instanceID: 10652}
+      Script: {instanceID: 10616}
     - Class: 114
-      Script: {instanceID: 10706}
+      Script: {instanceID: 10654}
     - Class: 114
-      Script: {instanceID: 10884}
+      Script: {instanceID: 10708}
     - Class: 114
-      Script: {instanceID: 10932}
+      Script: {instanceID: 10886}
     - Class: 114
-      Script: {instanceID: 10998}
+      Script: {instanceID: 10934}
     - Class: 114
-      Script: {instanceID: 11064}
+      Script: {instanceID: 11000}
     - Class: 114
-      Script: {instanceID: 11072}
+      Script: {instanceID: 11066}
     - Class: 114
-      Script: {instanceID: 11114}
+      Script: {instanceID: 11074}
     - Class: 114
-      Script: {instanceID: 11422}
+      Script: {instanceID: 11116}
     - Class: 114
-      Script: {instanceID: 11474}
+      Script: {instanceID: 11424}
     - Class: 114
-      Script: {instanceID: 11480}
+      Script: {instanceID: 11476}
+    - Class: 114
+      Script: {instanceID: 11482}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -460,6 +463,12 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: CardEffectBank
+  - hash:
+      serializedVersion: 2
       Hash: feb9a5a121d15fa3654d4e50a5233045
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -719,4 +728,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/Main Game.unity
-  playerPath: H:/Desktop/demo/Cthulhu Mythos.exe
+  playerPath: I:/Demo/Cthulhu Mythos.exe
