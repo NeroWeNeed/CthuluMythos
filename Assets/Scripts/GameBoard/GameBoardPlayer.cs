@@ -25,7 +25,7 @@ namespace CMythos
         private PlayMatRenderer PlayMatRenderer { get => GetComponentInParent<GameBoardManager>()?.PlayMatRenderer; }
 
         [SerializeField]
-        private float health = 100.0f;
+        private float health = 10.0f;
 
         public float Health
         {

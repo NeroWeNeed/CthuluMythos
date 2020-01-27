@@ -45,6 +45,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>     <Compile Include="Assets\Scripts\Cards\Card.cs" />
+     <Compile Include="Assets\Scripts\Cards\CardEffectBank.cs" />
      <Compile Include="Assets\Scripts\Cards\CardEvents.cs" />
      <Compile Include="Assets\Scripts\Cards\CardRenderer.cs" />
      <Compile Include="Assets\Scripts\Cards\CardType.cs" />

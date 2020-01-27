@@ -2,6 +2,9 @@
 
 using UnityEngine;
 using CMythos.Events;
+using UnityEditor;
+using System.Linq;
+
 namespace CMythos
 {
     [CreateAssetMenu(fileName = "Card", menuName = "Cthulhu Mythos/Card", order = 0)]
@@ -55,9 +58,10 @@ namespace CMythos
 
         private void Start()
         {
-            if (cardPlayEvent == null)
-                cardPlayEvent = new CardPlayEvent();
+
         }
+
+
 
     }
 }

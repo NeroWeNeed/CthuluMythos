@@ -50,7 +50,6 @@ namespace CMythos
         }
         private void UpdateShootInfos(Dice dice, string value)
         {
-            Debug.Log("Updating... " + value);
             ShootInfo shootInfo;
             for (int i = 0; i < shootInfos.Count; i++)
             {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 namespace CMythos
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshCollider), typeof(Rigidbody))]
@@ -57,7 +58,13 @@ namespace CMythos
             else
                 return null;
         }
+        public string ApproximateValue()
+        {
 
+            return values.Select(kvp => Tuple.Create(kvp, Vector3.Distance(transform.rotation * kvp.Key, matchDirection))).Aggregate((acc, tuple) => acc.Item2 < tuple.Item2 ? acc : tuple).Item1.Value;
+
+
+        }
 
         private void Awake()
         {
