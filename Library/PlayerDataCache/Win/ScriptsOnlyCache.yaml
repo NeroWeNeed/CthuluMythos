@@ -16,12 +16,15 @@ ScriptsOnlyBuild:
     - CMythos.GameBoardManager
     - CMythos.GameBoardPlayer
     - CMythos.GameBoardTileRenderer
+    - CMythos.GameManagerBootstrap
     - CMythos.Initializable
+    - CMythos.Investigator
+    - CMythos.InvestigatorSelector
+    - CMythos.InvestigatorSelectorText
     - CMythos.PlayMatRenderer
     - CMythos.PlayerViewUI
     - CMythos.PlayerViewUIAction
     - CMythos.PlayerViewUIRefreshable
-    - CMythos.StartMenu
     - CMythos.TurnManager
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -33,8 +36,92 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.RawImage
     - UnityEngine.UI.Text
   sceneClasses:
+    Assets/Scenes/CharacterSelect.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 23
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 33
+      Script: {instanceID: 0}
+    - Class: 43
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 54
+      Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 9676}
+    - Class: 114
+      Script: {instanceID: 9824}
+    - Class: 114
+      Script: {instanceID: 9864}
+    - Class: 114
+      Script: {instanceID: 9912}
+    - Class: 114
+      Script: {instanceID: 9958}
+    - Class: 114
+      Script: {instanceID: 10250}
+    - Class: 114
+      Script: {instanceID: 10270}
+    - Class: 114
+      Script: {instanceID: 10552}
+    - Class: 114
+      Script: {instanceID: 10608}
+    - Class: 114
+      Script: {instanceID: 10618}
+    - Class: 114
+      Script: {instanceID: 10630}
+    - Class: 114
+      Script: {instanceID: 10710}
+    - Class: 114
+      Script: {instanceID: 11002}
+    - Class: 114
+      Script: {instanceID: 11068}
+    - Class: 114
+      Script: {instanceID: 11076}
+    - Class: 114
+      Script: {instanceID: 11124}
+    - Class: 114
+      Script: {instanceID: 11428}
+    - Class: 114
+      Script: {instanceID: 11486}
+    - Class: 114
+      Script: {instanceID: 13034}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 136
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
     Assets/Scenes/Main Game.unity:
     - Class: 1
       Script: {instanceID: 0}
@@ -73,57 +160,53 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9864}
     - Class: 114
-      Script: {instanceID: 9956}
+      Script: {instanceID: 9958}
     - Class: 114
-      Script: {instanceID: 10008}
+      Script: {instanceID: 10010}
     - Class: 114
-      Script: {instanceID: 10208}
+      Script: {instanceID: 10210}
     - Class: 114
-      Script: {instanceID: 10240}
+      Script: {instanceID: 10242}
     - Class: 114
-      Script: {instanceID: 10248}
+      Script: {instanceID: 10250}
     - Class: 114
-      Script: {instanceID: 10268}
+      Script: {instanceID: 10270}
     - Class: 114
-      Script: {instanceID: 10298}
+      Script: {instanceID: 10300}
     - Class: 114
-      Script: {instanceID: 10434}
+      Script: {instanceID: 10436}
     - Class: 114
-      Script: {instanceID: 10504}
+      Script: {instanceID: 10506}
     - Class: 114
-      Script: {instanceID: 10550}
+      Script: {instanceID: 10552}
     - Class: 114
-      Script: {instanceID: 10554}
+      Script: {instanceID: 10556}
     - Class: 114
-      Script: {instanceID: 10596}
+      Script: {instanceID: 10598}
     - Class: 114
-      Script: {instanceID: 10602}
+      Script: {instanceID: 10604}
     - Class: 114
-      Script: {instanceID: 10606}
+      Script: {instanceID: 10608}
     - Class: 114
-      Script: {instanceID: 10616}
+      Script: {instanceID: 10656}
     - Class: 114
-      Script: {instanceID: 10654}
+      Script: {instanceID: 10710}
     - Class: 114
-      Script: {instanceID: 10708}
+      Script: {instanceID: 10888}
     - Class: 114
-      Script: {instanceID: 10886}
+      Script: {instanceID: 10936}
     - Class: 114
-      Script: {instanceID: 10934}
+      Script: {instanceID: 11076}
     - Class: 114
-      Script: {instanceID: 11000}
+      Script: {instanceID: 11118}
     - Class: 114
-      Script: {instanceID: 11066}
+      Script: {instanceID: 11428}
     - Class: 114
-      Script: {instanceID: 11074}
+      Script: {instanceID: 11480}
     - Class: 114
-      Script: {instanceID: 11116}
+      Script: {instanceID: 11486}
     - Class: 114
-      Script: {instanceID: 11424}
-    - Class: 114
-      Script: {instanceID: 11476}
-    - Class: 114
-      Script: {instanceID: 11482}
+      Script: {instanceID: 16188}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -229,6 +312,12 @@ ScriptsOnlyBuild:
     className: TMP_InputField
   - hash:
       serializedVersion: 2
+      Hash: 3c6add0ce4eccc6438ff3a1296c0f990
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: Investigator
+  - hash:
+      serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -323,12 +412,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Shadow
-  - hash:
-      serializedVersion: 2
-      Hash: b18e4349713c6c89d7141c41f933d9e7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: CMythos
-    className: StartMenu
   - hash:
       serializedVersion: 2
       Hash: d0a821b84537958fd0710924386e5ece
@@ -487,7 +570,7 @@ ScriptsOnlyBuild:
     className: VerticalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: ac4e66c41eb5b24bfa75f760771a37cd
+      Hash: c189470c36b49d449ae7c3a6ecfcde8d
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: GameBoardTileRenderer
@@ -559,7 +642,7 @@ ScriptsOnlyBuild:
     className: DirectionSelector
   - hash:
       serializedVersion: 2
-      Hash: 0e372a3c34d5d0b14425fb27d92dd174
+      Hash: 49187c61e10b3b018640d269d74f4211
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: GameBoardPlayer
@@ -599,6 +682,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: PlayMatRenderer
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: InvestigatorSelector
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -715,7 +804,7 @@ ScriptsOnlyBuild:
     className: GameBoardLayoutUtil
   - hash:
       serializedVersion: 2
-      Hash: c0524fe7bf83704d79694fa8da7ad9fd
+      Hash: bbcd6f97261d73a393ba621f9170b792
     assemblyName: Assembly-CSharp.dll
     namespaceName: CMythos
     className: GameBoard
@@ -725,7 +814,26 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 5c2d63a976999ddb50c50f27ee09de9d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: InvestigatorSelectorText
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: InvestigatorSelectStart
+  - hash:
+      serializedVersion: 2
+      Hash: 9960e2c66bb381dc37b1b5a62b30f046
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: CMythos
+    className: GameManagerBootstrap
   platform: 5
   scenePathNames:
+  - Assets/Scenes/CharacterSelect.unity
   - Assets/Scenes/Main Game.unity
-  playerPath: I:/Demo/Cthulhu Mythos.exe
+  playerPath: I:/misc/cmythos2/Cthulhu Mythos.exe

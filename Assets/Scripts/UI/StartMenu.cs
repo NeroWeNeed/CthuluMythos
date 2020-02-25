@@ -5,7 +5,7 @@ namespace CMythos
 {
 
 
-    public class StartMenu : MonoBehaviour
+/*     public class StartMenu : MonoBehaviour
     {
         [SerializeField]
         private Button startButton;
@@ -29,5 +29,5 @@ namespace CMythos
 
             });
         }
-    }
+    } */
 }

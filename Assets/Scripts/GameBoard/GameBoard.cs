@@ -91,6 +91,8 @@ namespace CMythos
         public GameBoardPathType PathType;
 
         public GameBoardEffect Effect;
+
+        public Vector3 CameraCoordinates;
         public GameObject Render;
         public void Clear()
         {

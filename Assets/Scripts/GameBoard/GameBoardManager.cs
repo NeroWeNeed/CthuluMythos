@@ -103,7 +103,9 @@ namespace CMythos
                 diceShooter = GetComponentInChildren<DiceShooter>();
         }
 
-        public void StartGame(int playerCount, GameBoard gameBoard = null)
+        
+
+        public void StartGame(Investigator[] players, GameBoard gameBoard = null)
         {
 
             if (!initialized)
@@ -113,13 +115,14 @@ namespace CMythos
                     this.gameBoard = gameBoard;
                 GameObject obj;
                 PlayMatRenderer.Init();
-
-                for (int i = 0; i < playerCount; i++)
+                int i = 0;
+                foreach (var player in players)
                 {
                     obj = new GameObject("Player " + (i + 1), typeof(GameBoardPlayer));
                     obj.transform.SetParent(turnManager.transform);
                     entities.Add(obj.GetComponent<GameBoardEntity>());
-
+                    obj.GetComponent<GameBoardPlayer>().Configure(player);
+                    i++;
                 }
 
                 UpdateEntityInfo();
@@ -135,7 +138,7 @@ namespace CMythos
                                     item.Init();
                                 } */
                 playerViewUI.Init();
-                turnManager.Init(playerCount);
+                turnManager.Init(players.Length);
 
             }
 

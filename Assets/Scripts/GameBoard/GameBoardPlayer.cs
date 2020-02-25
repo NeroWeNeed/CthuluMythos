@@ -41,6 +41,11 @@ namespace CMythos
             set => sanity = value;
         }
 
+        [SerializeField]
+        private int baseMovement = 1;
+
+        public int BaseMovement => baseMovement;
+
         public void Awake()
         {
 
@@ -55,6 +60,12 @@ namespace CMythos
             turnManagable.TurnStartedEvent.AddListener(InitTurn);
 
 
+        }
+
+        public void Configure(Investigator investigator) {
+            health = investigator.MaxHealth;
+            sanity = investigator.MaxSanity;
+            baseMovement = investigator.BaseMovement;
         }
 
         public Vector3Int GetCoordinates()

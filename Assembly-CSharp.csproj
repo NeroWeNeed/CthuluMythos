@@ -69,6 +69,11 @@
      <Compile Include="Assets\Scripts\GameBoard\GameBoardManager.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardPlayer.cs" />
      <Compile Include="Assets\Scripts\GameBoard\GameBoardTileRenderer.cs" />
+     <Compile Include="Assets\Scripts\Investigator\GameConfiguration.cs" />
+     <Compile Include="Assets\Scripts\Investigator\Investigator.cs" />
+     <Compile Include="Assets\Scripts\Investigator\InvestigatorSelector.cs" />
+     <Compile Include="Assets\Scripts\Investigator\InvestigatorSelectorText.cs" />
+     <Compile Include="Assets\Scripts\Investigator\InvestigatorSelectStart.cs" />
      <Compile Include="Assets\Scripts\Management\TurnEvents.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManagable.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManager.cs" />
@@ -81,6 +86,7 @@
      <Compile Include="Assets\Scripts\UI\StartMenu.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
      <Compile Include="Assets\Scripts\Util\DiceShootCallback.cs" />
+     <Compile Include="Assets\Scripts\Util\GameManagerBootstrap.cs" />
      <Compile Include="Assets\Scripts\Util\Initializable.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/Nero/Workspace/Unity/cmythos/Cthulhu Mythos/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

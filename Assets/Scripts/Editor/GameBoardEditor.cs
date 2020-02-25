@@ -69,6 +69,8 @@ public class GameBoardEditor2 : Editor
 
     private ObjectField renderSelector;
 
+    private Vector3Field cameraCoordinatesSelector;
+
     private ObjectField defaultRenderSelector;
 
     private Button nextLayerButton;
@@ -109,7 +111,7 @@ public class GameBoardEditor2 : Editor
     }
     public override VisualElement CreateInspectorGUI()
     {
-        
+
         rootElement.Clear();
         visualTree.CloneTree(rootElement);
         gridField = rootElement.Query<Image>("grid").First();
@@ -147,6 +149,10 @@ public class GameBoardEditor2 : Editor
 
         pathSelector.style.width = tilemapTileSize.x * 4;
         pathSelector.style.height = tilemapTileSize.y * 4;
+        //Configure Camera Coordinates Selector
+        cameraCoordinatesSelector = rootElement.Query<Vector3Field>("camera-coordinates-selector").First();
+
+        cameraCoordinatesSelector.RegisterValueChangedCallback(x => UpdateGridTileCameraCoordinates(selectedTile, x.newValue));
         //Configure Effect Selector
         effectSelector = rootElement.Query<ObjectField>("effect-selector").First();
         effectSelector.objectType = typeof(GameBoardEffect);
@@ -331,25 +337,33 @@ public class GameBoardEditor2 : Editor
 
     private void UpdateGridTileRender(Vector3Int coordinates, Object render)
     {
-        UpdateGridTileProperties(coordinates, render, null, true, false);
+        UpdateGridTileProperties(coordinates, render, null, Vector3.zero, true, false, false);
     }
     private void UpdateGridTileEffect(Vector3Int coordinates, Object effect)
     {
-        UpdateGridTileProperties(coordinates, null, effect, false, true);
+        UpdateGridTileProperties(coordinates, null, effect, Vector3.zero, false, true, false);
+    }
+    private void UpdateGridTileCameraCoordinates(Vector3Int coordinates, Vector3 cameraCoordinates)
+    {
+        UpdateGridTileProperties(coordinates, null, null, cameraCoordinates, false, false, true);
     }
     private void UpdateGridTileProperties(Vector3Int coordinates, GameObject render, Object effect)
     {
-        UpdateGridTileProperties(coordinates, render, effect, true, true);
+        UpdateGridTileProperties(coordinates, render, effect, Vector3.zero, true, true, false);
+    }
+    private void UpdateGridTileProperties(Vector3Int coordinates, GameObject render, Object effect, Vector3 cameraCoordinates)
+    {
+        UpdateGridTileProperties(coordinates, render, effect, cameraCoordinates, true, true, false);
     }
 
     private void RefreshTileProperties(Vector3Int coordinates)
     {
         int index = coordinates.y * (Width * Length) + coordinates.z * (Width) + coordinates.x;
         GameBoardTile tile;
-        if (index > 0 && index < gameBoard.tiles.Length) 
-        tile = gameBoard.tiles[index];
+        if (index > 0 && index < gameBoard.tiles.Length)
+            tile = gameBoard.tiles[index];
         else
-        tile = null;
+            tile = null;
 
         isRefreshingTileProperties = true;
         if (tile == null)
@@ -364,7 +378,7 @@ public class GameBoardEditor2 : Editor
         }
         isRefreshingTileProperties = false;
     }
-    private void UpdateGridTileProperties(Vector3Int coordinates, Object render, Object effect, bool updateRender, bool updateEffect)
+    private void UpdateGridTileProperties(Vector3Int coordinates, Object render, Object effect, Vector3 cameraCoordinates, bool updateRender, bool updateEffect, bool updateCoordinates)
     {
         if (!isRefreshingTileProperties)
         {
@@ -380,6 +394,8 @@ public class GameBoardEditor2 : Editor
                 tile.Render = render as GameObject;
             if (updateEffect)
                 tile.Effect = effect as GameBoardEffect;
+            if (updateCoordinates)
+                tile.CameraCoordinates = cameraCoordinates;
             EditorUtility.SetDirty(gameBoard);
         }
     }

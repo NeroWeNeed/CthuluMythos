@@ -19,8 +19,10 @@ namespace CMythos
             {
                 Destroy(item.gameObject);
             }
+            
             GameBoardManager manager = GetComponentInParent<GameBoardManager>();
             GameBoardPlayer player = GetComponentInParent<GameBoardPlayer>();
+            sum += player.BaseMovement;
             movingSum = manager.TryMove(player.GetComponent<GameBoardEntity>(), sum);
 
             if (movingSum <= 0)

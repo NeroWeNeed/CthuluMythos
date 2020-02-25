@@ -8,6 +8,7 @@
       <Button name="next-layer"/>
       <VisualElement name="grid-info-container">
          <VisualElement name="grid-tile-editor">
+         <Vector3Field name="camera-coordinates-selector" label="Camera Coordinates"  xmlns="UnityEditor.UIElements"/>
          <ObjectField name="effect-selector" label="Effect Selector" allow-scene-objects="false" xmlns="UnityEditor.UIElements"/>
          <ObjectField name="render-selector" label="Render Selector" allow-scene-objects="false"  xmlns="UnityEditor.UIElements"/>
          </VisualElement>
