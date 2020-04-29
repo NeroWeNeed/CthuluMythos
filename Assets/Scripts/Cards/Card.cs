@@ -4,6 +4,7 @@ using UnityEngine;
 using CMythos.Events;
 using UnityEditor;
 using System.Linq;
+using System;
 
 namespace CMythos
 {
@@ -43,6 +44,9 @@ namespace CMythos
             get => cardDrawEvent;
         }
 
+        [SerializeField]
+        private CardScoreEvent cardScoreEvent;
+        public CardScoreEvent CardScoreEvent { get => cardScoreEvent; }
 
         [SerializeField]
         public string Title;
@@ -55,13 +59,6 @@ namespace CMythos
 
         [SerializeField]
         public Texture2D graphic;
-
-        private void Start()
-        {
-
-        }
-
-
 
     }
 }

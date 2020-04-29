@@ -6,6 +6,8 @@ namespace CMythos {
 
         public static int difficulty;
 
+        public static Dictionary<string,float> standings = new Dictionary<string, float>();
+
 
 
     }

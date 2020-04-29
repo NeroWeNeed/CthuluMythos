@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\Cards\CardEffectBank.cs" />
      <Compile Include="Assets\Scripts\Cards\CardEvents.cs" />
      <Compile Include="Assets\Scripts\Cards\CardRenderer.cs" />
+     <Compile Include="Assets\Scripts\Cards\CardScorers.cs" />
      <Compile Include="Assets\Scripts\Cards\CardType.cs" />
      <Compile Include="Assets\Scripts\Cards\Deck.cs" />
      <Compile Include="Assets\Scripts\Cards\Hand.cs" />
@@ -74,6 +75,7 @@
      <Compile Include="Assets\Scripts\Investigator\InvestigatorSelector.cs" />
      <Compile Include="Assets\Scripts\Investigator\InvestigatorSelectorText.cs" />
      <Compile Include="Assets\Scripts\Investigator\InvestigatorSelectStart.cs" />
+     <Compile Include="Assets\Scripts\Management\ScoreKeeper.cs" />
      <Compile Include="Assets\Scripts\Management\TurnEvents.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManagable.cs" />
      <Compile Include="Assets\Scripts\Management\TurnManager.cs" />
@@ -83,6 +85,7 @@
      <Compile Include="Assets\Scripts\UI\PlayerViewUIAction.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIEvents.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerViewUIRefreshable.cs" />
+     <Compile Include="Assets\Scripts\UI\ResultsScreen.cs" />
      <Compile Include="Assets\Scripts\UI\StartMenu.cs" />
      <Compile Include="Assets\Scripts\Util.cs" />
      <Compile Include="Assets\Scripts\Util\DiceShootCallback.cs" />

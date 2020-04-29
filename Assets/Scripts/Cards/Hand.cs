@@ -1,9 +1,10 @@
 
+using System.Collections;
 using System.Collections.Generic;
 
 namespace CMythos
 {
-    public class Hand
+    public class Hand : IEnumerable<Card>
     {
         private const int maxCards = 7;
         public static int MAX_CARDS { get => maxCards; }
@@ -85,6 +86,14 @@ namespace CMythos
             return false;
         }
 
+        public IEnumerator<Card> GetEnumerator()
+        {
+            return cards.GetEnumerator();
+        }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return cards.GetEnumerator();
+        }
     }
 }

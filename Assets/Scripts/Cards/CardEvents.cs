@@ -18,4 +18,8 @@ namespace CMythos.Events
 
     [Serializable]
     public class CardActiveEvent : CardEvent { }
+
+    [Serializable]
+    public class CardScoreEvent : CardEvent { }
+
 }

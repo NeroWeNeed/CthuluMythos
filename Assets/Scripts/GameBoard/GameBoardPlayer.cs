@@ -27,6 +27,10 @@ namespace CMythos
         [SerializeField]
         private float health = 10.0f;
 
+        private float score = 0f;
+
+        public float Score { get => score; set => score = value; }
+
         public float Health
         {
             get => health;

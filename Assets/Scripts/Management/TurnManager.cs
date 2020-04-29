@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using CMythos.Events;
+using UnityEngine.SceneManagement;
+
 namespace CMythos
 {
     public class TurnManager : MonoBehaviour
@@ -70,6 +72,9 @@ namespace CMythos
             set => playerViewUI = value;
         }
 
+        public int CurrentTurn { get; private set; }
+        public int MaxTurns = 10;
+
         private void Awake()
         {
             turnEntities = new List<TurnManagable>(GetComponentsInChildren<TurnManagable>());
@@ -93,7 +98,7 @@ namespace CMythos
                 Active = true;
                 turnEntities.AddRange(GetComponentsInChildren<TurnManagable>());
 
-                
+
                 InitRound();
                 roundCycleStartEvent.Invoke();
                 RoundStartEvent.Invoke(turnOrder);
@@ -130,6 +135,7 @@ namespace CMythos
             if (turnManagable == currentTurnManagable && turnManagable != null && Active)
             {
                 TurnEndEvent.Invoke(currentTurnManagable);
+                Debug.Log(turnOrderIndex);
                 if (turnOrderIndex < turnOrder.Count)
                 {
                     currentTurnManagable = turnOrder[turnOrderIndex++];
@@ -137,11 +143,23 @@ namespace CMythos
                 }
                 else
                 {
+                    
                     RoundEndEvent.Invoke(turnOrder);
-                    InitRound();
-                    RoundStartEvent.Invoke(turnOrder);
-                    currentTurnManagable = turnOrder[turnOrderIndex++];
-                    NextTurn(currentTurnManagable);
+                    CurrentTurn++;
+                    if (CurrentTurn > MaxTurns)
+                    {
+                        End();
+                        SceneManager.LoadScene(2);
+                    }
+                    else
+                    {
+                        InitRound();
+                        RoundStartEvent.Invoke(turnOrder);
+                        currentTurnManagable = turnOrder[turnOrderIndex++];
+                        NextTurn(currentTurnManagable);
+                    }
+
+
                 }
 
             }

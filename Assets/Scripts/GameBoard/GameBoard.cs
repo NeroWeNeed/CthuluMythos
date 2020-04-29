@@ -73,7 +73,7 @@ namespace CMythos
 
         public IEnumerator<GameBoardTile> GetEnumerator()
         {
-            
+
             return tiles.GetEnumerator() as IEnumerator<GameBoardTile>;
         }
 
